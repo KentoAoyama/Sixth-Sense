@@ -16,4 +16,4 @@
 
 ## アセット
 
-[My3DGameAssets.zip](https://github.com/KentoAoyama/My3DGame/files/10442316/My3DGameAssets.zip)
+[Asset.zip](https://github.com/KentoAoyama/My3DGame/files/10442336/My3DGameAssets.zip)
