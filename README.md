@@ -13,3 +13,7 @@
 
 # ゲーム内容：斬新なシステムを使ったFPSシューティング
 ## タイトル「」
+
+## アセット
+
+[My3DGameAssets.zip](https://github.com/KentoAoyama/My3DGame/files/10442316/My3DGameAssets.zip)
