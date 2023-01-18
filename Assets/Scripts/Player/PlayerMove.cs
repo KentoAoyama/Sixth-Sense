@@ -2,43 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+[System.Serializable]
+public class PlayerMove
 {
+    [Tooltip("移動の速度")]
     [SerializeField]
-    private float _moveSpeed = 10f;
+    private float _moveSpeed = 1000f;
 
-    private float h;
-
-    private float v;
+    private readonly Speed _speed = new();
 
     private Rigidbody _rb;
+    private Transform _transform;
 
-
-    void Start()
+    public void Initialize(Rigidbody rb, Transform transform)
     {
-        Initialize();
+        _rb = rb;
+        _transform = transform;
     }
 
-
-    private void Initialize()
+    /// <summary>
+    /// プレイヤーの移動処理
+    /// </summary>
+    /// <param name="moveDir">移動方向</param>
+    /// <param name="deltaTime">速度がUpdate内でも変わらないようにするために使用するdeltaTime</param>
+    public void Move(Vector2 moveDir, float deltaTime)
     {
-        _rb = GetComponent<Rigidbody>();
-    }
-
-    
-    void Update()
-    {
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
-    }
-
-    void FixedUpdate()
-    {
-        Vector3 dir = Vector3.forward * v + Vector3.right * h;
+        //移動する方向を計算
+        Vector3 dir = Vector3.forward * moveDir.y + Vector3.right * moveDir.x;
         dir = Camera.main.transform.TransformDirection(dir);
         dir.y = 0;
 
-        if (dir != Vector3.zero) this.transform.forward = dir;
-        _rb.velocity = dir.normalized * _moveSpeed + Vector3.up * _rb.velocity.y;
+        //結果を適用
+        float moveSpeed = _moveSpeed * _speed.CurrentSpeed;
+        if (dir != Vector3.zero) _transform.forward = dir;
+        _rb.velocity = dir.normalized * moveSpeed * deltaTime + Vector3.up * _rb.velocity.y * deltaTime;
     }
 }

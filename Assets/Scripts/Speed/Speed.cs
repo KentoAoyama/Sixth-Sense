@@ -1,36 +1,36 @@
 using System;
 using UnityEngine;
+using UniRx;
 
 /// <summary>
 /// 速度に関するFloat型の値を取り扱うためのクラス
 /// </summary>
 public class Speed
 {
-    private float _speed;
+    // 値の変更を購読できるようReactivePropertyで定義
+    private ReactiveProperty<float> _speed = new(1f);
+
+    /// <summary>
+    /// スピードのReactiveProperty
+    /// </summary>
+    public IReadOnlyReactiveProperty<float> SpeedRp => _speed;
 
     /// <summary>
     /// 現在のスピードの値
     /// </summary>
-    public float CurrentSpeed => _speed;
-
-    /// <summary>
-    /// スピードが変更された際に実行するデリゲート
-    /// </summary>
-    public Action<float> OnSpeedChange;
+    public float CurrentSpeed => _speed.Value;
 
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    public Speed(float spped)
+    public Speed()
     {
-        _speed = spped;
         SpeedManager.Instance.Subscribe(this);
     }
 
-    public void Change(float speed)
+    public void ChangeSpeed(float speed)
     {
-        _speed = speed;
-        OnSpeedChange?.Invoke(speed);
+        _speed.Value = speed;
     }
 
     /// <summary>

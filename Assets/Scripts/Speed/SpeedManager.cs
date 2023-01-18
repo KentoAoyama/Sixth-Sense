@@ -43,7 +43,7 @@ public class SpeedManager
     {
         foreach (var speed in _speedList)
         {
-            speed.Change(value);
+            speed.ChangeSpeed(value);
         }
     }
 }
