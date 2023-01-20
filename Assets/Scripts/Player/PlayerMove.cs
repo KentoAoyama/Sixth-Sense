@@ -34,7 +34,12 @@ public class PlayerMove
 
         //Œ‹‰Ê‚ð“K—p
         float moveSpeed = _moveSpeed * _speed.CurrentSpeed;
-        if (dir != Vector3.zero) _transform.forward = dir;
         _rb.velocity = dir.normalized * moveSpeed * deltaTime + Vector3.up * _rb.velocity.y * deltaTime;
+
+        _transform.rotation = new Quaternion(
+            0,
+            Camera.main.transform.rotation.y,
+            0,
+            Camera.main.transform.rotation.w);
     }
 }
