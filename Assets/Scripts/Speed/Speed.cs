@@ -25,10 +25,10 @@ public class Speed
     /// </summary>
     public Speed()
     {
-        SpeedManager.Instance.Subscribe(this);
+        SpeedManager.Subscribe(this);
     }
 
-    public void ChangeSpeed(float speed)
+    public void ChangeValue(float speed)
     {
         _speed.Value = speed;
     }
@@ -38,6 +38,6 @@ public class Speed
     /// </summary>
 Å@Å@public void Unsubscribe()
     {
-        SpeedManager.Instance.Unsubscribe(this);
+        SpeedManager.Unsubscribe(this);
     }
 }

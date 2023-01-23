@@ -2387,7 +2387,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh29952
+  m_Name: pb_Mesh29962
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2587,7 +2587,7 @@ GameObject:
   - component: {fileID: 1599070377}
   - component: {fileID: 1599070378}
   m_Layer: 0
-  m_Name: GameSceneController
+  m_Name: InGameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2620,6 +2620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 376a73242e99be84c883f585aacb6042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 1694160589}
 --- !u!1 &1612640514
 GameObject:
   m_ObjectHideFlags: 0
@@ -2753,6 +2754,18 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
   m_PVRTiledBaking: 0
+--- !u!114 &1694160589 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1129814093, guid: 2d2ee9c9f8514064a85633c6543d13e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4587707625536393591}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29641cfbecf93b43ab7edc3629ca7ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1694880260
 GameObject:
   m_ObjectHideFlags: 0

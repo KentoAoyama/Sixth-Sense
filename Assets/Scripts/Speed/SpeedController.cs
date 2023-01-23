@@ -4,8 +4,25 @@ using UnityEngine;
 
 public class SpeedController : MonoBehaviour
 {
-    public void SpeedChange(float speed)
+    private SpeedManager _speedManager = new();
+
+    public void SpeedChange(float speed, ChangeSpeedType type)
     {
-        SpeedManager.Instance.ChangeSpeed(speed);
+        _speedManager.ChangeSpeed(speed, type);
+    }
+
+    public void Pause()
+    {
+        _speedManager.Pause();
+    }
+
+    public void Resume()
+    {
+        _speedManager.Resume();
+    }
+
+    private void OnDisable()
+    {
+        _speedManager.Reset();
     }
 }

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 [System.Serializable]
 public class PlayerShoot
 {
+    [Header("ステータス関連")]
+
     [Tooltip("Rayの最大の長さ")]
     [SerializeField]
     private float _rayLength = 100f;
@@ -28,16 +30,19 @@ public class PlayerShoot
     [SerializeField]
     private Image _crassHair;
 
-    Vector3 _shootPos = new (0, 0, 0);
+
+    [Header("ObjectPool")]
+
+    [Tooltip("プールのデフォルトの容量")]
+    [SerializeField]
+    private int _poolCapacity = 20;
+
+    [Tooltip("プールの最大サイズ")]
+    [SerializeField]
+    private int _poolMaxSize = 50;
+
 
     private float _shootIntervalTimer = 0f;
-
-    Transform _transform;
-
-    public void Initialize(Transform transform)
-    {
-        _transform = transform;
-    }
 
     /// <summary>
     /// プレイヤーの射撃処理
@@ -45,23 +50,33 @@ public class PlayerShoot
     /// <param name="isShoot">射撃を行うかどうか</param>
     public void BulletShoot(bool isShoot, float deltaTime)
     {
+        //インターバルにカウントを加算
         _shootIntervalTimer += deltaTime;
 
         if (isShoot && _shootInterval < _shootIntervalTimer)
         {
+            //弾を生成
             Ray ray = Camera.main.ScreenPointToRay(_crassHair.rectTransform.position);
-            var bullet = Object.Instantiate(_bullet, _muzzle.position, default);
+            GameObject bullet = Object.Instantiate(_bullet, _muzzle.position, default);            
 
+            // Rayを撃ち、当たっていたらその座標に向ける
             if (Physics.Raycast(ray, out RaycastHit hit, _rayLength))
             {             
                 bullet.transform.forward = hit.point - _muzzle.transform.position;
             }
+            //当たっていなければ、いま向いている方向に向かって撃つ
             else
             {
-                bullet.transform.forward = _transform.forward * _rayLength - _muzzle.transform.position;
+                bullet.transform.forward = Camera.main.transform.forward * _rayLength - _muzzle.transform.position;
             }
 
+            //弾を動かす
+            bullet.GetComponent<IBullet>().BulletMove();
+
+            //インターバルをリセット
             _shootIntervalTimer = 0f;
         }
     }
+
+    //private void 
 }

@@ -1,49 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class SpeedManager
 {
-    private static SpeedManager _instance = new();
-    public static SpeedManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                Debug.LogError($"Error! Please correct!");
-            }
-            return _instance;
-        }
-    }
-    private SpeedManager() { }
-
     /// <summary>
     /// 処理を行うSpeedクラスのList
     /// </summary>
-    private readonly List<Speed> _speedList = new();
+    private static List<Speed> _speedList = new();
 
     /// <summary>
-    /// Speedクラスの登録
+    /// 現在のスピードを保存しておく用のList
     /// </summary>
-    public void Subscribe(Speed speed)
+    private List<float> _currentSpeedList = new();
+
+    /// <summary>
+    /// Speedクラスの登録を行うstaticメソッド
+    /// </summary>
+    public static void Subscribe(Speed speed)
     {
         _speedList.Add(speed);
     }
 
     /// <summary>
-    /// Speedクラスの登録解除
+    /// Speedクラスの登録解除を行うstaticメソッド
     /// </summary>
-    public void Unsubscribe(Speed speed)
+    public static void Unsubscribe(Speed speed)
     {
         _speedList.Remove(speed);
     }
 
-    public void ChangeSpeed(float value)
+    /// <summary>
+    /// ポーズ処理
+    /// </summary>
+    public void Pause()
+    {
+        _speedList.ForEach(s => _currentSpeedList.Add(s.CurrentSpeed));
+        ChangeSpeed(0f, ChangeSpeedType.All);
+    }
+
+    /// <summary>
+    /// ポーズの解除処理
+    /// </summary>
+    public void Resume()
+    {
+        for (int i = 0; i < _speedList.Count; i++)
+        {
+            _speedList[i].ChangeValue(_currentSpeedList[i]);
+        }
+    }
+
+    public void ChangeSpeed(float value, ChangeSpeedType type)
     {
         foreach (var speed in _speedList)
         {
-            speed.ChangeSpeed(value);
+            speed.ChangeValue(value);
         }
+    }
+
+    public void Reset()
+    {
+        _speedList.Clear();
     }
 }

@@ -27,16 +27,13 @@ public class PlayerController : MonoBehaviour
     private IInputProvider _input;
 
 
-    private void Start()
+    public void Initialize()
     {
         _mover.Initialize(_rb, transform);
-        _shooter.Initialize(transform);
     }
 
-    private void Update()
+    public void ManualUpdate(float deltaTime)
     {
-        var deltaTime = Time.deltaTime;
-
         _mover.Move(_input.GetMoveDir(), deltaTime);
         _shooter.BulletShoot(_input.GetFire(), deltaTime);
     }
