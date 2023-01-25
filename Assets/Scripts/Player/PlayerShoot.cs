@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Pool;
 
 [System.Serializable]
 public class PlayerShoot
@@ -30,17 +31,10 @@ public class PlayerShoot
     [SerializeField]
     private Image _crassHair;
 
-
     [Header("ObjectPool")]
 
-    [Tooltip("プールのデフォルトの容量")]
     [SerializeField]
-    private int _poolCapacity = 20;
-
-    [Tooltip("プールの最大サイズ")]
-    [SerializeField]
-    private int _poolMaxSize = 50;
-
+    private NormalBulletPool _normalBulletPool;
 
     private float _shootIntervalTimer = 0f;
 
@@ -55,28 +49,29 @@ public class PlayerShoot
 
         if (isShoot && _shootInterval < _shootIntervalTimer)
         {
-            //弾を生成
-            Ray ray = Camera.main.ScreenPointToRay(_crassHair.rectTransform.position);
-            GameObject bullet = Object.Instantiate(_bullet, _muzzle.position, default);            
+            //場合に応じた弾を生成
+            NormalBulletController bulletController = _normalBulletPool.Pool.Get();
 
+            GameObject bullet = bulletController.gameObject;
+            bullet.transform.position = _muzzle.position;
+
+            Ray ray = Camera.main.ScreenPointToRay(_crassHair.rectTransform.position);
             // Rayを撃ち、当たっていたらその座標に向ける
             if (Physics.Raycast(ray, out RaycastHit hit, _rayLength))
             {             
                 bullet.transform.forward = hit.point - _muzzle.transform.position;
             }
-            //当たっていなければ、いま向いている方向に向かって撃つ
+            //当たっていなければ、Rayの終着点に向かって撃つ
             else
             {
                 bullet.transform.forward = Camera.main.transform.forward * _rayLength - _muzzle.transform.position;
             }
 
             //弾を動かす
-            bullet.GetComponent<IBullet>().BulletMove();
+            bullet.GetComponent<NormalBulletController>().MoveStart(_normalBulletPool.Pool);
 
             //インターバルをリセット
             _shootIntervalTimer = 0f;
         }
     }
-
-    //private void 
 }

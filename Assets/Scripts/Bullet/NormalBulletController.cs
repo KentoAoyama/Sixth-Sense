@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class BulletController : MonoBehaviour, IBullet
+public class NormalBulletController : MonoBehaviour
 {
     [Tooltip("弾のスピード")]
     [SerializeField]
@@ -16,27 +16,25 @@ public class BulletController : MonoBehaviour, IBullet
     [SerializeField]
     private Rigidbody _rb;
 
-    /// <summary>
-    /// 何かに接触しているか判定する用の変数
-    /// </summary>
-    bool _isHit;
+    [SerializeField]
+    private TrailRenderer _trail;
 
-    private Speed _speed = new();
+    private readonly Speed _speed = new();
 
-    private IObjectPool<IBullet> _objectPool;
-
-    // 弾にObjectPoolへの参照を与えるパブリックプロパティ
-    public IObjectPool<IBullet> ObjectPool { set => _objectPool = value; }
+    private IObjectPool<NormalBulletController> _objectPool;
 
     Coroutine _delayCoroutine;
 
     /// <summary>
     /// 生成時に呼び出すメソッド
     /// </summary>
-    public void BulletMove()
+    public void MoveStart(IObjectPool<NormalBulletController> objectPool)
     {
-        _rb.velocity = transform.forward * _bulletSpeed * _speed.CurrentSpeed * Time.deltaTime;
-
+        //オブジェクトプールの参照を渡す
+        if (_objectPool == null) _objectPool = objectPool;
+        //正面方向にスピードを設定
+        _rb.velocity = transform.forward * _bulletSpeed * Time.deltaTime * _speed.CurrentSpeed;
+        //破棄を行うコルーチンを実行
         _delayCoroutine = StartCoroutine(DestoryInterval());
     }
 
@@ -44,12 +42,13 @@ public class BulletController : MonoBehaviour, IBullet
     {
         yield return new WaitForSeconds(5);
 
+        _delayCoroutine = null;
         Release();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        _isHit = true;
+        Release();
     }
 
     private void Release()
@@ -58,6 +57,7 @@ public class BulletController : MonoBehaviour, IBullet
 
         // 動きをリセット
         _rb.velocity = new Vector3(0f, 0f, 0f);
+        _trail.Clear();
 
         _objectPool.Release(this);
     }
