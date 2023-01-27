@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class SpeedManager
 {
@@ -14,6 +13,9 @@ public class SpeedManager
     /// 現在のスピードを保存しておく用のList
     /// </summary>
     private List<float> _currentSpeedList = new();
+
+    private static float _currentSpeed = 0f;
+    public static float CurrentSpeed => _currentSpeed;
 
     /// <summary>
     /// Speedクラスの登録を行うstaticメソッド
@@ -53,6 +55,8 @@ public class SpeedManager
 
     public void ChangeSpeed(float value, ChangeSpeedType type)
     {
+        _currentSpeed = value;
+
         foreach (var speed in _speedList)
         {
             speed.ChangeValue(value);

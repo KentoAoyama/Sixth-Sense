@@ -6,6 +6,11 @@ public class SpeedController : MonoBehaviour
 {
     private SpeedManager _speedManager = new();
 
+    public void SpeedChange(float speed)
+    {
+        _speedManager.ChangeSpeed(speed, ChangeSpeedType.All);
+    }
+
     public void SpeedChange(float speed, ChangeSpeedType type)
     {
         _speedManager.ChangeSpeed(speed, type);

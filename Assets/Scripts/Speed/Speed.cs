@@ -25,6 +25,8 @@ public class Speed
     /// </summary>
     public Speed()
     {
+        //現在のスピードの値を適用
+        _speed.Value = SpeedManager.CurrentSpeed;
         SpeedManager.Subscribe(this);
     }
 
