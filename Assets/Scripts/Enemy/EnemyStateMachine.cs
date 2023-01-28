@@ -9,11 +9,18 @@ public class EnemyStateMachine
     public IEnemyState CurrentState => _currentState;
 
     //State‚ÌƒNƒ‰ƒX
-    public SearchState runState; 
+    private SearchState _search;
+    public SearchState Search => _search;
+
+    private AttackState _attack;
+    public AttackState Attack => _attack;
+
+    private DeadState _dead;
+    public DeadState Dead => _dead;
 
     public EnemyStateMachine(EnemyController enemy)
     {
-        runState = new SearchState(enemy);
+        _search = new SearchState(enemy);
     }
 
     public void Initialized(IEnemyState state)

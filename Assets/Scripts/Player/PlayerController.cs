@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     public void ManualUpdate(float deltaTime)
     {
-        _mover.Move(_input.GetMoveDir(), deltaTime);
+        _mover.Move(_input.GetMoveDir());
         _shooter.BulletShoot(_input.GetFire(), deltaTime);
     }
 }

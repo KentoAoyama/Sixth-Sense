@@ -4,7 +4,24 @@ using UnityEngine;
 
 public interface IEnemyState
 {
-    public void Enter() { }
-    public void Update(float deltaTime) { }
-    public void Exit() { }
+    /// <summary>
+    /// このStateに変更された際に実行する
+    /// </summary>
+    void Enter() { }
+
+    /// <summary>
+    /// このStateのUpdate処理
+    /// </summary>
+    void Update() { }
+
+    /// <summary>
+    /// このStateのUpdate処理
+    /// </summary>
+    /// <param name="deltaTime"></param>
+    void Update(float deltaTime) { }
+
+    /// <summary>
+    /// このStateから別のStateに変更された際に実行する
+    /// </summary>
+    void Exit() { }
 }

@@ -14,7 +14,7 @@ public class SpeedManager
     /// </summary>
     private List<float> _currentSpeedList = new();
 
-    private static float _currentSpeed = 0f;
+    private static float _currentSpeed = 1f;
     public static float CurrentSpeed => _currentSpeed;
 
     /// <summary>
