@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 public class EnemyController : MonoBehaviour
 {
     [Tooltip("NavmeshAgentコンポーネント")]
     [SerializeField]
     private NavMeshAgent _navMesh;
+
+    [SerializeField]
+    private float _gravity;
 
     private PlayerController _player;
     public PlayerController Player => _player;
@@ -30,6 +34,8 @@ public class EnemyController : MonoBehaviour
         var deltaTime = Time.deltaTime;
 
         _stateMachine.Update(deltaTime);
+
+        Physics.gravity = new Vector3(0, -_gravity, 0);
     }
 
     public void Move()
