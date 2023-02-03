@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class SlowDownTest : MonoBehaviour
 {
@@ -21,13 +20,22 @@ public class SlowDownTest : MonoBehaviour
 
         foreach (var rb in _rbs)
         {
-            rb.angularDrag = 10f;
+            rb.angularDrag = 30f;
+            rb.useGravity = false;
         }
     }
 
-    /// <summary>
-    /// 機能を発動する
-    /// </summary>
+    private void FixedUpdate()
+    {
+        if (_isWorking)
+        {
+            foreach (var rb in _rbs)
+            {
+                rb.AddForce(Physics.gravity * _speed.CurrentSpeed);
+            }
+        }
+    }
+
     public void Slow(float speed)
     {
         if (_isWorking) return;
@@ -36,12 +44,10 @@ public class SlowDownTest : MonoBehaviour
         SppedChange(speed);
     }
 
-    /// <summary>
-    /// 機能を元に戻す
-    /// </summary>
     public void Resume()
     {
         if (!_isWorking) return;
+
         SppedChange(1f);
         _isWorking = false;
     }
@@ -56,7 +62,5 @@ public class SlowDownTest : MonoBehaviour
             rb.velocity *= _speed.CurrentSpeed;
             rb.angularVelocity *= _speed.CurrentSpeed;
         }
-
-        Physics.gravity = new Vector3(0f, -9.8f, 0f) * _speed.CurrentSpeed;
     }
 }
