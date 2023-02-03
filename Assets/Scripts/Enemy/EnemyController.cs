@@ -11,10 +11,21 @@ public class EnemyController : MonoBehaviour
     private NavMeshAgent _navMesh;
 
     [SerializeField]
-    private float _gravity;
+    private float _gravity = 9.8f;
+
+    [SerializeField, Range(0f, 0.02f)]
+    private float _fixedUpdate = 0.02f;
+
+
+    [Header("機能ごとのクラス")]
+
+    [SerializeField]
+    private EnemyAttack _attacker;
+
+    [SerializeField]
+    private EnemyMove _mover;
 
     private PlayerController _player;
-    public PlayerController Player => _player;
 
     private EnemyStateMachine _stateMachine;
     public EnemyStateMachine StateMachine => _stateMachine;
@@ -23,6 +34,10 @@ public class EnemyController : MonoBehaviour
     {
         //仮置きでFindする
         _player = FindObjectOfType<PlayerController>().GetComponent<PlayerController>();
+
+        //機能ごとのクラスを初期化
+        _attacker.Initialize(_player);
+        _mover.Initialize(_player, _navMesh);
 
         //StateMachineを初期化し、Stateを設定
         _stateMachine = new (this);
@@ -34,14 +49,10 @@ public class EnemyController : MonoBehaviour
         var deltaTime = Time.deltaTime;
 
         _stateMachine.Update(deltaTime);
-
-        Physics.gravity = new Vector3(0, -_gravity, 0);
     }
 
     public void Move()
     {
-        _navMesh
-            .SetDestination(
-            Player.gameObject.transform.position);
+        _mover.Move();
     }
 }
