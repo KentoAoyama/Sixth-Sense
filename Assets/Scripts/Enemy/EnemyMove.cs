@@ -6,6 +6,10 @@ using UnityEngine.AI;
 [System.Serializable]
 public class EnemyMove
 {
+    [Tooltip("“G‚ÌˆÚ“®‘¬“x")]
+    [SerializeField]
+    private float _moveSpeed = 1f;
+
     private PlayerController _player;
 
     private NavMeshAgent _navMesh;
@@ -21,5 +25,7 @@ public class EnemyMove
         _navMesh
             .SetDestination(
             _player.gameObject.transform.position);
+
+        if (_navMesh.speed != _moveSpeed) _navMesh.speed = _moveSpeed;
     }
 }

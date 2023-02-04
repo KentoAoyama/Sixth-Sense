@@ -10,12 +10,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private NavMeshAgent _navMesh;
 
+    [Tooltip("Animatorコンポーネント")]
     [SerializeField]
-    private float _gravity = 9.8f;
-
-    [SerializeField, Range(0f, 0.02f)]
-    private float _fixedUpdate = 0.02f;
-
+    private Animator _animator;
 
     [Header("機能ごとのクラス")]
 
@@ -36,12 +33,17 @@ public class EnemyController : MonoBehaviour
         _player = FindObjectOfType<PlayerController>().GetComponent<PlayerController>();
 
         //機能ごとのクラスを初期化
-        _attacker.Initialize(_player);
+        _attacker.Initialize(_player, _animator);
         _mover.Initialize(_player, _navMesh);
 
         //StateMachineを初期化し、Stateを設定
         _stateMachine = new (this);
         _stateMachine.Initialized(_stateMachine.Search);
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        _attacker.SetIK(_animator);
     }
 
     private void Update()
@@ -54,5 +56,15 @@ public class EnemyController : MonoBehaviour
     public void Move()
     {
         _mover.Move();
+    }
+
+    public void AttackUpdate()
+    {
+        
+    }
+
+    public void Attack()
+    {
+        _attacker.Attack();
     }
 }

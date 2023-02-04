@@ -251,7 +251,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7766414587927271966}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SlowDownTest, Assembly-CSharp
         m_MethodName: Slow
         m_Mode: 4
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7766414587927271966}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SlowDownTest, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
@@ -9362,7 +9362,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh30112
+  m_Name: pb_Mesh30188
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -9939,7 +9939,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7766414587927271970}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Slowdown, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
@@ -10258,7 +10258,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7766414587927271966}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SlowDownTest, Assembly-CSharp
         m_MethodName: Slow
         m_Mode: 4
@@ -10725,7 +10725,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7766414587927271970}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Slowdown, Assembly-CSharp
         m_MethodName: Slow
         m_Mode: 1
@@ -14910,7 +14910,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh34226
+  m_Name: pb_Mesh30042
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -15501,6 +15501,11 @@ PrefabInstance:
       propertyPath: _gravity
       value: 9.8
       objectReference: {fileID: 0}
+    - target: {fileID: 7766414587237236600, guid: 231b9c254d903ca4797d3d83f1531b39,
+        type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 7766414587927271967}
     - target: {fileID: 7804001027317995664, guid: 231b9c254d903ca4797d3d83f1531b39,
         type: 3}
       propertyPath: m_RootOrder
@@ -15558,48 +15563,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 231b9c254d903ca4797d3d83f1531b39, type: 3}
---- !u!1 &7766414587927271964 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7423815902168269354, guid: 231b9c254d903ca4797d3d83f1531b39,
-    type: 3}
-  m_PrefabInstance: {fileID: 7766414587927271963}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7766414587927271965 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7804001027317995664, guid: 231b9c254d903ca4797d3d83f1531b39,
-    type: 3}
-  m_PrefabInstance: {fileID: 7766414587927271963}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7766414587927271966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7766414587927271964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d368f285ea967d8419a59e22fb67594c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _root: {fileID: 7766414587927271965}
 --- !u!95 &7766414587927271967 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 919132148507858994, guid: 231b9c254d903ca4797d3d83f1531b39,
     type: 3}
   m_PrefabInstance: {fileID: 7766414587927271963}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7766414587927271970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7766414587927271964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 148eb38db02900a4380a1114a4d3c218, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _root: {fileID: 7766414587927271965}
-  _physicsInterval: 4
