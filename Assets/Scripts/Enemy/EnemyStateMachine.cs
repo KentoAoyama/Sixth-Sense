@@ -21,6 +21,8 @@ public class EnemyStateMachine
     public EnemyStateMachine(EnemyController enemy)
     {
         _search = new SearchState(enemy);
+        _attack = new AttackState(enemy);
+        _dead = new DeadState(enemy);
     }
 
     public void Initialized(IEnemyState state)

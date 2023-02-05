@@ -16,7 +16,7 @@ public class SearchState : IEnemyState
 
     public void Enter()
     {
-        
+        Debug.Log("Enter:SearchState");
     }
 
     public void Update(float deltaTime)

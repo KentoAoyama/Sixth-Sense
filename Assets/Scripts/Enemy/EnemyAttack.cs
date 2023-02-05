@@ -10,10 +10,8 @@ public class EnemyAttack
     private GameObject _bullet;
 
     [Tooltip("銃口のTransform")]
+    [SerializeField]
     private Transform _muzzle;
-
-    [Tooltip("手のTransform")]
-    private Transform _hand;
 
     [Tooltip("手の Position に対するウェイト")]
     [SerializeField, Range(0f, 1f)] 
@@ -33,15 +31,15 @@ public class EnemyAttack
         _animator = animator;
     }
 
-    public void SetIK(Animator animator)
+    public void SetIK()
     {
         _animator.SetIKPosition(
-            AvatarIKGoal.RightHand, 
-            _hand.position);
+            AvatarIKGoal.RightHand,
+            _player.transform.position);
 
         _animator.SetIKRotation(
-            AvatarIKGoal.RightHand, 
-            _hand.rotation);
+            AvatarIKGoal.RightHand,
+            _player.transform.rotation);
 
         _animator.SetIKPositionWeight(
             AvatarIKGoal.RightHand,
@@ -49,12 +47,13 @@ public class EnemyAttack
 
         _animator.SetIKRotationWeight(
             AvatarIKGoal.RightHand, 
-            _handRotationWeight);         
+            -_handRotationWeight);         
     }
 
-    public void AttackIKSet()
+    public void ChangeIKWeight()
     {
-        //_animator.SetLayerWeight(2, )
+        _handPositionWeight = 1f;
+        _handRotationWeight = 1f;
     }
 
     public void Attack()

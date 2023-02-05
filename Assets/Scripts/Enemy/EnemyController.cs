@@ -38,12 +38,12 @@ public class EnemyController : MonoBehaviour
 
         //StateMachine‚ğ‰Šú‰»‚µAState‚ğİ’è
         _stateMachine = new (this);
-        _stateMachine.Initialized(_stateMachine.Search);
+        _stateMachine.Initialized(_stateMachine.Attack);
     }
 
     private void OnAnimatorIK(int layerIndex)
     {
-        _attacker.SetIK(_animator);
+        _attacker.SetIK();
     }
 
     private void Update()
@@ -58,9 +58,9 @@ public class EnemyController : MonoBehaviour
         _mover.Move();
     }
 
-    public void AttackUpdate()
+    public void ChangeIKWeight()
     {
-        
+        _attacker.ChangeIKWeight();
     }
 
     public void Attack()

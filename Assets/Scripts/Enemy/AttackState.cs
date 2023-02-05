@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class AttackState : IEnemyState
 {
-    EnemyController _enemy;
+    private EnemyController _enemy;
 
     public AttackState(EnemyController enemy)
     {
@@ -16,7 +16,8 @@ public class AttackState : IEnemyState
 
     public void Enter()
     {
-        
+        _enemy.ChangeIKWeight();
+        Debug.Log("Enter:AttackState");
     }
 
     public void Update(float deltaTime)
