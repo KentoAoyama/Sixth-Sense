@@ -15516,23 +15516,34 @@ PrefabInstance:
       objectReference: {fileID: 1397532221}
     - target: {fileID: 7766414587237236600, guid: 231b9c254d903ca4797d3d83f1531b39,
         type: 3}
+      propertyPath: _attacker._bullet
+      value: 
+      objectReference: {fileID: 2977700678306113800, guid: b8275ee40d565634e97bdb424d00612e,
+        type: 3}
+    - target: {fileID: 7766414587237236600, guid: 231b9c254d903ca4797d3d83f1531b39,
+        type: 3}
       propertyPath: _attacker._muzzle
       value: 
       objectReference: {fileID: 55696088}
     - target: {fileID: 7766414587237236600, guid: 231b9c254d903ca4797d3d83f1531b39,
         type: 3}
       propertyPath: _mover._moveSpeed
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7766414587237236600, guid: 231b9c254d903ca4797d3d83f1531b39,
         type: 3}
+      propertyPath: _attacker._normalBulletPool
+      value: 
+      objectReference: {fileID: 948962883}
+    - target: {fileID: 7766414587237236600, guid: 231b9c254d903ca4797d3d83f1531b39,
+        type: 3}
       propertyPath: _attacker._handPositionWeight
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7766414587237236600, guid: 231b9c254d903ca4797d3d83f1531b39,
         type: 3}
       propertyPath: _attacker._handRotationWeight
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7804001027317995664, guid: 231b9c254d903ca4797d3d83f1531b39,
         type: 3}

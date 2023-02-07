@@ -22,10 +22,16 @@ public class SearchState : IEnemyState
     public void Update(float deltaTime)
     {
         _enemy.Move();
+
+        if (_enemy.PlayerSearch())
+        {
+            //プレイヤーを目視していたらSearchStateに変更する
+            _enemy.StateMachine.TransitionState(_enemy.StateMachine.Attack);
+        }
     }
 
     public void Exit() 
     {
-        
+        Debug.Log("Exit:SearchState");
     }
 }
