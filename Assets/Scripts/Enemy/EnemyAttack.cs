@@ -40,6 +40,8 @@ public class EnemyAttack
 
     private Animator _animator;
 
+    private float _timer = 0;
+
     public void Initialize(PlayerController player, Animator animator)
     {
         _player = player;
@@ -71,16 +73,13 @@ public class EnemyAttack
         _handRotationWeight = weight;
     }
 
-    /// <summary>
-    /// 一定時間ごとに攻撃を行う
-    /// </summary>
-    public async UniTask Attack(CancellationToken token)
+    public void Attack(float deltaTime)
     {
-        while (true)
-        {
-            //射撃のインターバル
-            await UniTask.Delay(TimeSpan.FromSeconds(_interval), cancellationToken: token);
+        //射撃のインターバル
+        _timer += deltaTime;
 
+        if (_timer > _interval)
+        {
             //場合に応じた弾を生成
             NormalBulletController bulletController = _normalBulletPool.Pool.Get();
 
@@ -90,6 +89,38 @@ public class EnemyAttack
 
             //弾を動かす
             bullet.GetComponent<NormalBulletController>().MoveStart(_normalBulletPool.Pool);
+
+            _timer = 0;
         }
     }
+
+    public void AttackStop()
+    {
+        _timer = 0;
+    }
+
+    ///// <summary>
+    ///// 一定時間ごとに攻撃を行う
+    ///// </summary>
+    //public async UniTask Attack(CancellationToken token)
+    //{
+    //    while (true)
+    //    {
+    //        Debug.Log("Delay開始");
+
+    //        //射撃のインターバル
+    //        await UniTask.Delay(TimeSpan.FromSeconds(_interval), cancellationToken: token);
+
+    //        Debug.Log("弾を撃つ");
+    //        //場合に応じた弾を生成
+    //        NormalBulletController bulletController = _normalBulletPool.Pool.Get();
+
+    //        GameObject bullet = bulletController.gameObject;
+    //        bullet.transform.position = _muzzle.position;
+    //        bullet.transform.forward = _player.transform.position - _muzzle.transform.position;
+
+    //        //弾を動かす
+    //        bullet.GetComponent<NormalBulletController>().MoveStart(_normalBulletPool.Pool);
+    //    }
+    //}
 }

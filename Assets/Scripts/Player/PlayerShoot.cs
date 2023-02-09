@@ -42,7 +42,7 @@ public class PlayerShoot
     /// プレイヤーの射撃処理
     /// </summary>
     /// <param name="isShoot">射撃を行うかどうか</param>
-    public void BulletShoot(bool isShoot, float deltaTime)
+    public void BulletShoot(bool isShoot, float deltaTime) //TODO：UniTaskでのインターバル処理をやってみる
     {
         //インターバルにカウントを加算
         _shootIntervalTimer += deltaTime;

@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using UniRx;
-using System;
 
 public class NormalBulletController : MonoBehaviour
 {
@@ -27,7 +25,15 @@ public class NormalBulletController : MonoBehaviour
 
     Coroutine _delayCoroutine;
 
-    IDisposable _disposable;
+    float _timer = 0;
+
+    private void Update()
+    {
+        //前に移動させ続ける
+        transform.Translate(
+            transform.forward * _bulletSpeed * Time.deltaTime * _speed.CurrentSpeed,
+            Space.World);
+    }
 
     /// <summary>
     /// 生成時に呼び出すメソッド
@@ -36,15 +42,7 @@ public class NormalBulletController : MonoBehaviour
     {
         //オブジェクトプールの参照を渡す
         if (_objectPool == null) _objectPool = objectPool;
-        //正面方向にスピードを設定
-        if (_disposable == null)
-        {
-            //スピードが変更されるたびにそれを適用するようにする
-            _speed.SpeedRp
-            .Subscribe(
-                speed => 
-                _rb.velocity = transform.forward * _bulletSpeed * Time.deltaTime * speed);
-        }
+
         //破棄を行うコルーチンを実行
         _delayCoroutine = StartCoroutine(DestoryInterval());
     }

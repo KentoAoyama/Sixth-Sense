@@ -9,7 +9,13 @@ public class EnemySearch
     [SerializeField]
     private float _searchLength = 10f;
 
-    private EnemyController _enemy;
+    [Tooltip("Rayを撃つ始点の座標")]
+    [SerializeField]
+    private Transform _head;
+
+    [Tooltip("Rayが接触するLayer")]
+    [SerializeField]
+    private LayerMask _layer;
 
     private PlayerController _player;
 
@@ -26,15 +32,15 @@ public class EnemySearch
     public bool PlayerSearch()
     {
         bool _isSearch = false;
-        float distance = (_enemy.transform.position - _player.transform.position).sqrMagnitude;
+        Vector3 _dir = _player.transform.position - _head.transform.position;
+        float distance = (_dir).sqrMagnitude;
+        Ray ray = new (_head.transform.position, _dir);
 
         //プレイヤーが近くにいたら
         if (distance < _searchLength * _searchLength)
         {
             //Rayを撃ち、当たったオブジェクトがプレイヤーか判定
-            _isSearch = Physics.Raycast(_enemy.transform.position,
-                _player.transform.position - _enemy.transform.position,
-                out RaycastHit hit, _searchLength)
+            _isSearch = Physics.Raycast(ray, out RaycastHit hit, _searchLength, _layer)
                 && hit.collider.gameObject.GetComponent<PlayerController>();
         }
 

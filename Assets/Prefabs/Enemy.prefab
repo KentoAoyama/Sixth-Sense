@@ -2899,10 +2899,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 0
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 500
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -2926,13 +2926,21 @@ MonoBehaviour:
   _navMesh: {fileID: 7766414587237236607}
   _animator: {fileID: 919132148507858994}
   _attacker:
-    _bullet: {fileID: 0}
-    _muzzle: {fileID: 0}
-    _hand: {fileID: 0}
-    _handPositionWeight: 0
-    _handRotationWeight: 0
+    _bullet: {fileID: 2977700678306113800, guid: b8275ee40d565634e97bdb424d00612e,
+      type: 3}
+    _muzzle: {fileID: 997881740579905384}
+    _interval: 3
+    _normalBulletPool: {fileID: 0}
+    _handPositionWeight: 1
+    _handRotationWeight: 1
   _mover:
-    _moveSpeed: 1
+    _moveSpeed: 0
+  _searcher:
+    _searchLength: 10
+    _head: {fileID: 101657121421901146}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!95 &919132148507858994
 Animator:
   serializedVersion: 4
@@ -3536,6 +3544,12 @@ PrefabInstance:
 --- !u!4 &744089385886152834 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7031334741533562445, guid: 408e377ed1b1cb94495ccb15c2926da2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7766414587244146383}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &997881740579905384 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7358574807396676007, guid: 408e377ed1b1cb94495ccb15c2926da2,
     type: 3}
   m_PrefabInstance: {fileID: 7766414587244146383}
   m_PrefabAsset: {fileID: 0}

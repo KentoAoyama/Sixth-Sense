@@ -8,23 +8,6 @@ public class EnemyStateMachine
     private IEnemyState _currentState;
     public IEnemyState CurrentState => _currentState;
 
-    //State‚ÌƒNƒ‰ƒX
-    private SearchState _search;
-    public SearchState Search => _search;
-
-    private AttackState _attack;
-    public AttackState Attack => _attack;
-
-    private DeadState _dead;
-    public DeadState Dead => _dead;
-
-    public EnemyStateMachine(EnemyController enemy)
-    {
-        _search = new SearchState(enemy);
-        _attack = new AttackState(enemy);
-        _dead = new DeadState(enemy);
-    }
-
     public void Initialized(IEnemyState state)
     {
         _currentState = state;

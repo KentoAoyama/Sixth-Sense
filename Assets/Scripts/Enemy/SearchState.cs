@@ -16,7 +16,7 @@ public class SearchState : IEnemyState
 
     public void Enter()
     {
-        Debug.Log("Enter:SearchState");
+        
     }
 
     public void Update(float deltaTime)
@@ -26,12 +26,12 @@ public class SearchState : IEnemyState
         if (_enemy.PlayerSearch())
         {
             //プレイヤーを目視していたらSearchStateに変更する
-            _enemy.StateMachine.TransitionState(_enemy.StateMachine.Attack);
+            _enemy.StateMachine.TransitionState(new AttackState(_enemy));
         }
     }
 
     public void Exit() 
     {
-        Debug.Log("Exit:SearchState");
+        
     }
 }

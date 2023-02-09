@@ -28,13 +28,13 @@ public class EnemyController : MonoBehaviour
 
     private PlayerController _player;
 
-    private EnemyStateMachine _stateMachine;
+    private readonly EnemyStateMachine _stateMachine = new();
     public EnemyStateMachine StateMachine => _stateMachine;
 
     /// <summary>
     /// UniTaskキャンセル用のTokenSource
     /// </summary>
-    private readonly CancellationTokenSource _tokenSource = new();
+    //private readonly CancellationTokenSource _tokenSource = new();
 
     private void Start()
     {
@@ -47,8 +47,7 @@ public class EnemyController : MonoBehaviour
         _searcher.Initialize(_player);
 
         //StateMachineを初期化し、Stateを設定
-        _stateMachine = new(this);
-        _stateMachine.Initialized(_stateMachine.Search);
+        _stateMachine.Initialized(new SearchState(this));
     }
 
     private void OnAnimatorIK(int layerIndex)
@@ -58,10 +57,8 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        var deltaTime = Time.deltaTime;
-
         //現在StateのUpdateを実行
-        _stateMachine.Update(deltaTime);
+        _stateMachine.Update(Time.deltaTime);
     }
 
     public void ChangeIKWeight(float weight)
@@ -70,22 +67,35 @@ public class EnemyController : MonoBehaviour
     }
 
     /// <summary>
-    /// 攻撃を行う、Stateの遷移時に実行するメソッド
+    /// 攻撃を行う、Updateで実行するメソッド
     /// </summary>
-    public void AttackStart()
+    public void Attack(float deltaTime)
     {
-        //攻撃を一定時間ごとに行うUniTaskを実行し、Forget()で警告を無視
-        _attacker.Attack(_tokenSource.Token).Forget();
+        _attacker.Attack(deltaTime);
+    }
+
+    public void AttackStop()
+    {
+        _attacker.AttackStop();
     }
 
     /// <summary>
-    /// 攻撃処理の実行を止める
-    /// </summary>
-    public void AttackStop()
-    {
-        //実行しているUniTaskの攻撃処理をキャンセルする
-        _tokenSource.Cancel();
-    }
+    /// 攻撃を行う、Stateの遷移時に実行するメソッド
+    ///// </summary>
+    //public void AttackStart()
+    //{
+    //    //攻撃を一定時間ごとに行うUniTaskを実行し、Forget()で警告を無視
+    //    _attacker.Attack(_tokenSource.Token).Forget();
+    //}
+
+    ///// <summary>
+    ///// 攻撃処理の実行を止める
+    ///// </summary>
+    //public void AttackStop()
+    //{
+    //    //実行しているUniTaskの攻撃処理をキャンセルする
+    //    _tokenSource.Cancel();
+    //}
 
     public void Move()
     {
