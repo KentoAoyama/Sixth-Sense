@@ -8,10 +8,23 @@ public class InGameController : MonoBehaviour
     [SerializeField]
     private PlayerController _player;
 
+    [Tooltip("敵の生成を行うクラス")]
+    [SerializeField]
+    private EnemyGenerator _enemyGenerator;
+
+    [Tooltip("弾のオブジェクトプール")]
+    [SerializeField]
+    private NormalBulletPool _bulletPool;
+
+    [Tooltip("敵のオブジェクトプール")]
+    [SerializeField]
+    private EnemyPool _enemyPool;
+
     void Start()
     {
         CursorInit();
-        _player.Initialize();
+        _player.Initialize(_bulletPool);
+        _enemyGenerator.Initialize(_player, _bulletPool, _enemyPool);
     }
 
     private void CursorInit()
@@ -25,5 +38,6 @@ public class InGameController : MonoBehaviour
         var deltaTime = Time.deltaTime;
 
         _player.ManualUpdate(deltaTime);
+        _enemyGenerator.ManualUpdate(deltaTime);
     }
 }

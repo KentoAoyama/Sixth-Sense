@@ -2,10 +2,10 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 /// <summary>
-/// 弾のオブジェクトプールを作る際に使用する抽象クラス
+/// オブジェクトプールを作る際に使用する抽象クラス
 /// </summary>
 /// <typeparam name="T">作成するオブジェクトプールのクラス</typeparam>
-public abstract class BulletPool<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
 {
     [Header("ObjectPool")]
 
@@ -21,7 +21,7 @@ public abstract class BulletPool<T> : MonoBehaviour where T : MonoBehaviour
     [SerializeField]
     private T _prefab;
 
-    private bool _collectionCheck = true;
+    private readonly bool _collectionCheck = true;
 
     private IObjectPool<T> _pool;
     public IObjectPool<T> Pool => _pool;
@@ -30,7 +30,7 @@ public abstract class BulletPool<T> : MonoBehaviour where T : MonoBehaviour
     private void Awake()
     {
         //オブジェクトプールを作成
-        _pool = new ObjectPool<T>(
+        _pool = new UnityEngine.Pool.ObjectPool<T>(
             CreateBullet,
             OnGetFromPool,
             OnReleaseToPool,
@@ -56,7 +56,7 @@ public abstract class BulletPool<T> : MonoBehaviour where T : MonoBehaviour
     /// <summary>
     /// プールから使用するときの処理
     /// </summary>
-    private void OnGetFromPool(T poolObject)
+    public virtual void OnGetFromPool(T poolObject)
     {
         poolObject.gameObject.SetActive(true);
     }
@@ -64,7 +64,7 @@ public abstract class BulletPool<T> : MonoBehaviour where T : MonoBehaviour
     /// <summary>
     /// プールから一時削除する処理
     /// </summary>
-    private void OnReleaseToPool(T poolObject)
+    public virtual void OnReleaseToPool(T poolObject)
     {
         poolObject.gameObject.SetActive(false);
     }

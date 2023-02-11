@@ -31,12 +31,14 @@ public class PlayerShoot
     [SerializeField]
     private Image _crassHair;
 
-    [Header("ObjectPool")]
-
-    [SerializeField]
     private NormalBulletPool _normalBulletPool;
 
     private float _shootIntervalTimer = 0f;
+
+    public void Initialize(NormalBulletPool bulletPool)
+    {
+        _normalBulletPool = bulletPool;
+    }
 
     /// <summary>
     /// ƒvƒŒƒCƒ„[‚ÌËŒ‚ˆ—

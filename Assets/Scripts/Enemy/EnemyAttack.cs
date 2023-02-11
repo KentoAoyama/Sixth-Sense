@@ -22,9 +22,6 @@ public class EnemyAttack
     [SerializeField]
     private float _interval = 3f;
 
-    [Tooltip("弾のオブジェクトプール")]
-    [SerializeField]
-    private NormalBulletPool _normalBulletPool;
 
     [Header("IKの設定")]
 
@@ -42,10 +39,16 @@ public class EnemyAttack
 
     private float _timer = 0;
 
-    public void Initialize(PlayerController player, Animator animator)
+    /// <summary>
+    /// 弾のオブジェクトプール
+    /// </summary>
+    private NormalBulletPool _normalBulletPool;
+
+    public void Initialize(PlayerController player, Animator animator, NormalBulletPool bulletPool)
     {
         _player = player;
         _animator = animator;
+        _normalBulletPool = bulletPool;
     }
 
     public void SetIK()

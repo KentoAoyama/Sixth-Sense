@@ -27,9 +27,10 @@ public class PlayerController : MonoBehaviour
     private IInputProvider _input;
 
 
-    public void Initialize()
+    public void Initialize(NormalBulletPool bulletPool)
     {
         _mover.Initialize(_rb, transform);
+        _shooter.Initialize(bulletPool);
     }
 
     public void ManualUpdate(float deltaTime)

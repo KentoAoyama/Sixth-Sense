@@ -36,13 +36,12 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     //private readonly CancellationTokenSource _tokenSource = new();
 
-    private void Start()
+    public void Initialize(PlayerController player, NormalBulletPool bulletPool)
     {
-        //仮置きでFindする
-        _player = FindObjectOfType<PlayerController>().GetComponent<PlayerController>();
+        _player = player;
 
         //機能ごとのクラスを初期化
-        _attacker.Initialize(_player, _animator);
+        _attacker.Initialize(_player, _animator, bulletPool);
         _mover.Initialize(_player, _navMesh);
         _searcher.Initialize(_player);
 
@@ -55,10 +54,10 @@ public class EnemyController : MonoBehaviour
         _attacker.SetIK();
     }
 
-    private void Update()
+    public void ManualUpdate(float deltaTime)
     {
         //現在StateのUpdateを実行
-        _stateMachine.Update(Time.deltaTime);
+        _stateMachine.Update(deltaTime);
     }
 
     public void ChangeIKWeight(float weight)

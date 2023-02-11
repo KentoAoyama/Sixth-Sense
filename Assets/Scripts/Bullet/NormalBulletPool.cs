@@ -1,1 +1,1 @@
-public class NormalBulletPool : BulletPool<NormalBulletController> {}
+public class NormalBulletPool : ObjectPool<NormalBulletController> {}

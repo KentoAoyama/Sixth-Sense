@@ -11,7 +11,7 @@ public class NormalBulletController : MonoBehaviour
 
     [Tooltip("’e‚ª”jŠü‚³‚ê‚é‚Ü‚Å‚ÌŽžŠÔ")]
     [SerializeField]
-    private int _destroyInterval = 10;
+    private float _destroyInterval = 10f;
 
     [SerializeField]
     private Rigidbody _rb;
@@ -24,8 +24,6 @@ public class NormalBulletController : MonoBehaviour
     private IObjectPool<NormalBulletController> _objectPool;
 
     Coroutine _delayCoroutine;
-
-    float _timer = 0;
 
     private void Update()
     {
@@ -49,7 +47,7 @@ public class NormalBulletController : MonoBehaviour
 
     private IEnumerator DestoryInterval()
     {
-        yield return new WaitForSeconds(50f);
+        yield return new WaitForSeconds(_destroyInterval);
 
         _delayCoroutine = null;
         Release();
