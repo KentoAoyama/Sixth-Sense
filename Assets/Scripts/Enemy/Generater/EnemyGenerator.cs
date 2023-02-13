@@ -84,11 +84,12 @@ public class EnemyGenerator : MonoBehaviour
 
     private void EnemysUpdate(float deltaTime)
     {
-        if (_enemys.Count == 0) return;
-
-        foreach (var enemy in _enemys)
+        if (_enemys.Count > 0)
         {
-            enemy.ManualUpdate(deltaTime);
+            foreach (var enemy in _enemys)
+            {
+                enemy.ManualUpdate(deltaTime);
+            }
         }
     }
 }
