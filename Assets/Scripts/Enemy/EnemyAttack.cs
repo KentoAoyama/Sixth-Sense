@@ -107,22 +107,24 @@ public class EnemyAttack
     ///// </summary>
     //public async UniTask Attack(CancellationToken token)
     //{
+    //    token.ThrowIfCancellationRequested();
+
     //    while (true)
     //    {
     //        Debug.Log("Delay開始");
 
-    //        //射撃のインターバル
+    //        射撃のインターバル
     //        await UniTask.Delay(TimeSpan.FromSeconds(_interval), cancellationToken: token);
 
     //        Debug.Log("弾を撃つ");
-    //        //場合に応じた弾を生成
+    //        場合に応じた弾を生成
     //        NormalBulletController bulletController = _normalBulletPool.Pool.Get();
 
     //        GameObject bullet = bulletController.gameObject;
     //        bullet.transform.position = _muzzle.position;
     //        bullet.transform.forward = _player.transform.position - _muzzle.transform.position;
 
-    //        //弾を動かす
+    //        弾を動かす
     //        bullet.GetComponent<NormalBulletController>().MoveStart(_normalBulletPool.Pool);
     //    }
     //}

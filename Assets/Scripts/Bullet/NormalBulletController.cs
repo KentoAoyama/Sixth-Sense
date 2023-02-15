@@ -55,6 +55,11 @@ public class NormalBulletController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (TryGetComponent(out IHittable hit))
+        {
+
+        }
+
         Release();
     }
 

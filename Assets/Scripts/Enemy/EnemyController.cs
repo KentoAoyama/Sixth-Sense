@@ -24,6 +24,9 @@ public class EnemyController : MonoBehaviour
     private EnemyMove _mover;
 
     [SerializeField]
+    private EnemyDeath _death;
+
+    [SerializeField]
     private EnemySearch _searcher;
 
     private PlayerController _player;
@@ -78,6 +81,27 @@ public class EnemyController : MonoBehaviour
         _attacker.AttackStop();
     }
 
+    public void Move()
+    {
+        //NavMeshを使用して移動させる
+        _mover.Move();
+    }
+
+    public bool PlayerSearch()
+    {
+        return _searcher.PlayerSearch();
+    }
+
+    /// <summary>
+    /// IHittableインターフェースによって実装される攻撃を受けた際の処理を定義するメソッド
+    /// </summary>
+    public void Hit()
+    {
+        
+    }
+}
+
+
     /// <summary>
     /// 攻撃を行う、Stateの遷移時に実行するメソッド
     ///// </summary>
@@ -95,15 +119,3 @@ public class EnemyController : MonoBehaviour
     //    //実行しているUniTaskの攻撃処理をキャンセルする
     //    _tokenSource.Cancel();
     //}
-
-    public void Move()
-    {
-        //NavMeshを使用して移動させる
-        _mover.Move();
-    }
-
-    public bool PlayerSearch()
-    {
-        return _searcher.PlayerSearch();
-    }
-}
