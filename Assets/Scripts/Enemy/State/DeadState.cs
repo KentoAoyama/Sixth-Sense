@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class DeadState : IEnemyState
 {
-    EnemyController _enemy;
+    private EnemyController _enemy;
 
     public DeadState(EnemyController enemy)
     {
@@ -21,11 +21,11 @@ public class DeadState : IEnemyState
 
     public void Update(float deltaTime)
     {
-        
+        _enemy.DeadUpdate(deltaTime);
     }
 
     public void Exit() 
     {
-        
+        _enemy.Revive();
     }
 }

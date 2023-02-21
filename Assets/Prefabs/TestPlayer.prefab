@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4587707625787285115}
   - component: {fileID: 1129814092}
   - component: {fileID: 1129814093}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TestPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4587707625787285116}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0c3b245991c076445beb5c792cafebcd, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -130,4 +130,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1129814092}
   _mover:
-    _moveSpeed: 1000
+    _moveSpeed: 10
+  _shooter:
+    _rayLength: 10000
+    _layer:
+      serializedVersion: 2
+      m_Bits: 2147483647
+    _shootInterval: 1
+    _bullet: {fileID: 2977700678306113800, guid: b8275ee40d565634e97bdb424d00612e,
+      type: 3}
+    _muzzle: {fileID: 0}
+    _crassHair: {fileID: 0}

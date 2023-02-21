@@ -14,9 +14,6 @@ public class NormalBulletController : MonoBehaviour
     private float _destroyInterval = 10f;
 
     [SerializeField]
-    private Rigidbody _rb;
-
-    [SerializeField]
     private TrailRenderer _trail;
 
     private readonly Speed _speed = new();
@@ -55,9 +52,16 @@ public class NormalBulletController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (TryGetComponent(out IHittable hit))
+        //命中した際の処理が定義されているかチェック
+        if (other.transform.root.TryGetComponent(out IHittable hit))
         {
+            hit.Hit();
+        }
 
+        //ノックバック処理が定義されているかチェック
+        if (other.transform.root.TryGetComponent(out IKnockBackable knockBackable))
+        {
+            knockBackable.KnockBack(other, transform.forward);
         }
 
         Release();
@@ -67,8 +71,6 @@ public class NormalBulletController : MonoBehaviour
     {
         if (_delayCoroutine != null) StopCoroutine(_delayCoroutine);
 
-        // 動きをリセット
-        _rb.velocity = new Vector3(0f, 0f, 0f);
         _trail.Clear();
 
         _objectPool.Release(this);

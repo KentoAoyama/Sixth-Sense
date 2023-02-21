@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IKnockBackable
 {
     [Tooltip("NavmeshAgentコンポーネント")]
     [SerializeField]
@@ -34,19 +34,19 @@ public class EnemyController : MonoBehaviour
     private readonly EnemyStateMachine _stateMachine = new();
     public EnemyStateMachine StateMachine => _stateMachine;
 
-    /// <summary>
-    /// UniTaskキャンセル用のTokenSource
-    /// </summary>
+    private Speed _speed = new();
+
     //private readonly CancellationTokenSource _tokenSource = new();
 
-    public void Initialize(PlayerController player, NormalBulletPool bulletPool)
+    public void Initialize(PlayerController player, NormalBulletPool bulletPool, EnemyPool enemyPool)
     {
         _player = player;
 
-        //機能ごとのクラスを初期化
+        //機能ごとのクラスの初期化を実行
         _attacker.Initialize(_player, _animator, bulletPool);
         _mover.Initialize(_player, _navMesh);
         _searcher.Initialize(_player);
+        _death.Initialize(_animator, _navMesh, enemyPool, this, _speed);
 
         //StateMachineを初期化し、Stateを設定
         _stateMachine.Initialized(new SearchState(this));
@@ -93,11 +93,30 @@ public class EnemyController : MonoBehaviour
     }
 
     /// <summary>
-    /// IHittableインターフェースによって実装される攻撃を受けた際の処理を定義するメソッド
+    /// IKnockBackインターフェースによって実装されるノックバック処理
     /// </summary>
-    public void Hit()
+    public void KnockBack(Collider collider, Vector3 dir)
     {
-        
+        _death.Dead();
+        _death.KnockBack(collider, dir);
+        _stateMachine.TransitionState(new DeadState(this));
+    }
+    
+
+    /// <summary>
+    /// 再生時の処理
+    /// </summary>
+    public void Revive()
+    {
+        _death.Revive();
+    }
+
+    /// <summary>
+    /// 死亡中に実行するUpdate処理
+    /// </summary>
+    public void DeadUpdate(float deltaTime)
+    {
+        _death.DeadUpdate(deltaTime);
     }
 }
 

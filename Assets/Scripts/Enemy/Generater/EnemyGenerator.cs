@@ -18,10 +18,15 @@ public class EnemyGenerator : MonoBehaviour
     [SerializeField]
     private float _interval = 5f;
 
+    [Tooltip("生成を行う回数")]
+    [SerializeField]
+    private int _generateTime = 5;
+
     private const int MAX_POS_LENGTH = 10;
 
     private float _timer = 0;
     private int _indexCount = 0;
+    private int _generateCount = 0;
 
     private PlayerController _player;
     private NormalBulletPool _bulletPool;
@@ -61,6 +66,9 @@ public class EnemyGenerator : MonoBehaviour
 
     private void Generate(float deltaTime)
     {
+        //指定した回数以上は生成しない
+        if (_generateCount >= _generateTime) return;
+
         _timer += deltaTime;
 
         if (_timer > _interval)
@@ -71,13 +79,19 @@ public class EnemyGenerator : MonoBehaviour
             if (!_enemys.Contains(enemy)) 
             {
                 _enemys.Add(enemy);
-                enemy.Initialize(_player, _bulletPool);
+                enemy.Initialize(_player, _bulletPool, _enemyPool);
+            }
+            //既に追加されていたらStateを変更する
+            else
+            {
+                enemy.StateMachine.TransitionState(new SearchState(enemy));
             }
             //指定した座標に移動
             enemy.transform.position =
                 _generatePos[_generatePosIndex[_indexCount % _generatePosIndex.Length]].position;
 
             _indexCount++;
+            _generateCount++;
             _timer = 0;
         }
     }

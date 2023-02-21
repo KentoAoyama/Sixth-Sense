@@ -20,6 +20,8 @@ public class EnemyStateMachine
     /// <param name="nextState">•ÏX‚·‚éState</param>
     public void TransitionState(IEnemyState nextState)
     {
+        if (_currentState == nextState) return;
+
         _currentState.Exit();
         _currentState = nextState;
         nextState.Enter();
