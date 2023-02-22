@@ -125,26 +125,30 @@ public class EnemyDeath
         Debug.Log("KnockBack");
         BodyBreak(collider);
 
+        //弾が当たった部位のコライダーに力を加える
         Rigidbody rb = collider.gameObject.GetComponent<Rigidbody>();
-
         rb.AddForce(dir * _knockBackPower, ForceMode.Impulse);
     }
 
     private void BodyBreak(Collider collider)
     {
+        //部位破壊可能なオブジェクトだった場合行う
         if (_colliders.Contains(collider))
         {
             collider.gameObject.transform.localScale = new Vector3(0f, 0f, 0f);
+            //後で戻すため破壊したオブジェクトを取っておく
             _deletedCollider = collider;
         }
     }
 
     public void Dead()
     {
+        //弾とプレイヤーに接触しないようにレイヤ―を変更する
         foreach (Transform child in _childrenObjects)
         {
             child.gameObject.layer = 8;
         }
+        //アニメーターとNavMeshを切ってラグドール化させる
         _animator.enabled = false;
         _navMesh.enabled = false;
         
@@ -154,16 +158,19 @@ public class EnemyDeath
     {
         _timer = 0f;
 
+        //破壊している部位がある場合元に戻す
         if (_deletedCollider != null)
         {
             _deletedCollider.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
             _deletedCollider = null;
         }
         
+        //変えていたレイヤーを元に戻す
         foreach (Transform child in _childrenObjects)
         {
             child.gameObject.layer = 6;
         }
+        //アニメーターとNavMeshを起動する
         _navMesh.enabled = true;
         _animator.enabled = true;
     }
@@ -172,11 +179,13 @@ public class EnemyDeath
     {
         _timer += deltaTime;
 
+        //重力を手動で加える
         foreach (var rb in _rbs)
         {
             rb.AddForce(Physics.gravity * _speed.CurrentSpeed * deltaTime * 200);
         }
 
+        //一定時間がたったらプールにオブジェクトを戻し、Stateを変更する
         if (_timer > _interval)
         {
             _objectPool.Release(_enemy);
