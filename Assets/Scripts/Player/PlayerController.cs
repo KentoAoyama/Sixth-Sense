@@ -20,17 +20,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private PlayerShoot _shooter;
 
+    [SerializeField]
+    private PlayerCloseEye _closeEye;
+
     /// <summary>
     /// 入力を受け取るインターフェース
     /// </summary>
     [Inject]
     private IInputProvider _input;
-
+    public IInputProvider Input => _input;
 
     public void Initialize(NormalBulletPool bulletPool)
     {
         _mover.Initialize(_rb, transform);
         _shooter.Initialize(bulletPool);
+        _closeEye.Initialize(this);
     }
 
     public void ManualUpdate(float deltaTime)
