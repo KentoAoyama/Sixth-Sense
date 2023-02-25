@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private PlayerCloseEye _closeEye;
 
+    public PlayerShoot Shooter => _shooter;
+
     /// <summary>
     /// 入力を受け取るインターフェース
     /// </summary>

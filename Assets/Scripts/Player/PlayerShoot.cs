@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Pool;
 
 [System.Serializable]
 public class PlayerShoot
@@ -18,6 +18,7 @@ public class PlayerShoot
 
     [SerializeField]
     private float _shootInterval = 1f;
+    public float ShootInterval => _shootInterval;
 
     [Tooltip("弾のプレハブ")]
     [SerializeField]
@@ -30,6 +31,8 @@ public class PlayerShoot
     [Tooltip("クロスヘアのImage")]
     [SerializeField]
     private Image _crassHair;
+
+    public event Action OnBulletShoot;
 
     private NormalBulletPool _normalBulletPool;
 
@@ -51,6 +54,9 @@ public class PlayerShoot
 
         if (isShoot && _shootInterval < _shootIntervalTimer)
         {
+            //eventを実行
+            OnBulletShoot?.Invoke();
+
             //場合に応じた弾を生成
             NormalBulletController bulletController = _normalBulletPool.Pool.Get();
 

@@ -20,11 +20,16 @@ public class InGameController : MonoBehaviour
     [SerializeField]
     private EnemyPool _enemyPool;
 
+    [Tooltip("GUI‚ÌŠÇ—‚ğ‚·‚éƒNƒ‰ƒX")]
+    [SerializeField]
+    private GUIPresenter _gui;
+
     void Start()
     {
         CursorInit();
         _player.Initialize(_bulletPool);
         _enemyGenerator.Initialize(_player, _bulletPool, _enemyPool);
+        _gui.Initialize(_player);
     }
 
     private void CursorInit()
