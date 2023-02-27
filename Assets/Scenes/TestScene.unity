@@ -15929,7 +15929,7 @@ PrefabInstance:
     - target: {fileID: 8024367264222819317, guid: 63e5074cab1f3134bb290ab50c22eb5d,
         type: 3}
       propertyPath: _generateTime
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8024367264222819317, guid: 63e5074cab1f3134bb290ab50c22eb5d,
         type: 3}

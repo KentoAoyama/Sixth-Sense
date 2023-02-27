@@ -24,7 +24,7 @@ public class InGameController : MonoBehaviour
     [SerializeField]
     private GUIPresenter _gui;
 
-    void Start()
+    private void Start()
     {
         CursorInit();
         _player.Initialize(_bulletPool);
