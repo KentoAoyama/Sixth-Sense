@@ -32,10 +32,10 @@ public class PlayerController : MonoBehaviour
     private IInputProvider _input;
     public IInputProvider Input => _input;
 
-    public void Initialize(NormalBulletPool bulletPool)
+    public void Initialize(NormalBulletPool bulletPool, SoundEffectPool soundEffectPool)
     {
         _mover.Initialize(_rb, transform);
-        _shooter.Initialize(bulletPool);
+        _shooter.Initialize(bulletPool, soundEffectPool);
         _closeEye.Initialize(this);
     }
 

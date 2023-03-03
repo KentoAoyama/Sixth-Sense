@@ -31,7 +31,7 @@ public class InGameController : MonoBehaviour
     private void Start()
     {
         CursorInit();
-        _player.Initialize(_bulletPool);
+        _player.Initialize(_bulletPool, _soundEffectPool);
         _enemyGenerator.Initialize(_player, _bulletPool, _enemyPool, _soundEffectPool);
         _gui.Initialize(_player);
     }
