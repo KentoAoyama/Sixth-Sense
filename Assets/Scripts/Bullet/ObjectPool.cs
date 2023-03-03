@@ -47,9 +47,6 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
     {
         T objectInstance = Instantiate(_prefab);
 
-        //生成したオブジェクトにオブジェクトプールの参照を渡す
-        //objectInstance.ObjectPool = _bulletObjectPool;
-
         return objectInstance;
     }
 

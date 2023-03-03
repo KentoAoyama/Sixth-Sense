@@ -21,7 +21,7 @@ public class AttackState : IEnemyState
 
     public void Update(float deltaTime)
     {
-        _enemy.Move();
+        _enemy.Move(deltaTime);
         _enemy.Attack(deltaTime);
 
         if (!_enemy.PlayerSearch())

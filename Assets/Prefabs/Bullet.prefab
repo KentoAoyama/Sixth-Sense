@@ -168,7 +168,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletSpeed: 25
   _destroyInterval: 10
-  _rb: {fileID: 566572376}
   _trail: {fileID: 2977700678306113802}
 --- !u!54 &566572376
 Rigidbody:
@@ -260,7 +259,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a5f5db2cd81f69949b6298347581f765, type: 2}
+  - {fileID: 2100000, guid: 973a2df83934d434aa8c5aab6be432db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -343,7 +342,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 973a2df83934d434aa8c5aab6be432db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

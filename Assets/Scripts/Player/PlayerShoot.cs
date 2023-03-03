@@ -35,12 +35,14 @@ public class PlayerShoot
     public event Action OnBulletShoot;
 
     private NormalBulletPool _normalBulletPool;
+    private SoundEffectPool _soundEffectPool;
 
     private float _shootIntervalTimer = 0f;
 
-    public void Initialize(NormalBulletPool bulletPool)
+    public void Initialize(NormalBulletPool bulletPool, SoundEffectPool soundEffectPool)
     {
         _normalBulletPool = bulletPool;
+        _soundEffectPool = soundEffectPool;
     }
 
     /// <summary>
@@ -76,7 +78,7 @@ public class PlayerShoot
             }
 
             //弾を動かす
-            bullet.GetComponent<NormalBulletController>().MoveStart(_normalBulletPool.Pool);
+            bullet.GetComponent<NormalBulletController>().MoveStart(_normalBulletPool, _soundEffectPool);
 
             //インターバルをリセット
             _shootIntervalTimer = 0f;

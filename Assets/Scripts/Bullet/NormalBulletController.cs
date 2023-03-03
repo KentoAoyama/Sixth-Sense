@@ -18,9 +18,11 @@ public class NormalBulletController : MonoBehaviour
 
     private readonly Speed _speed = new();
 
-    private IObjectPool<NormalBulletController> _objectPool;
+    private IObjectPool<NormalBulletController> _bulletPool;
 
-    Coroutine _delayCoroutine;
+    private Coroutine _delayCoroutine;
+
+    private SoundEffectPool _soundEffectPool;
 
     private void Update()
     {
@@ -33,10 +35,11 @@ public class NormalBulletController : MonoBehaviour
     /// <summary>
     /// 生成時に呼び出すメソッド
     /// </summary>
-    public void MoveStart(IObjectPool<NormalBulletController> objectPool)
+    public void MoveStart(NormalBulletPool bulletPool, SoundEffectPool soundEffectPool)
     {
         //オブジェクトプールの参照を渡す
-        if (_objectPool == null) _objectPool = objectPool;
+        if (_bulletPool == null) _bulletPool = bulletPool.Pool;
+        if (_soundEffectPool == null) _soundEffectPool = soundEffectPool;
 
         //破棄を行うコルーチンを実行
         _delayCoroutine = StartCoroutine(DestoryInterval());
@@ -61,6 +64,10 @@ public class NormalBulletController : MonoBehaviour
         //ノックバック処理が定義されているかチェック
         if (other.transform.root.TryGetComponent(out IKnockBackable knockBackable))
         {
+            //SoundEffectを生成する
+            SoundEffect soundEffect = _soundEffectPool.Pool.Get();
+            soundEffect.Initialize(_soundEffectPool, SoundEffectType.Normal, transform.position);
+
             knockBackable.KnockBack(other, transform.forward);
         }
 
@@ -73,6 +80,6 @@ public class NormalBulletController : MonoBehaviour
 
         _trail.Clear();
 
-        _objectPool.Release(this);
+        _bulletPool.Release(this);
     }
 }

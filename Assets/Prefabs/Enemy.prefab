@@ -193,7 +193,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8950265562796933603, guid: 148bf08355c466c478ca60c2171655f8, type: 3}
+  - {fileID: 2100000, guid: b14ec54b7a9a9b04991b18227d1e16d7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2934,6 +2934,7 @@ MonoBehaviour:
     _handRotationWeight: 1
   _mover:
     _moveSpeed: 1
+    _soundInterval: 3
   _death:
     _head: {fileID: 7687346005190944583}
     _rightArm: {fileID: 8859567156015772865}
@@ -2954,7 +2955,7 @@ MonoBehaviour:
     _head: {fileID: 101657121421901146}
     _layer:
       serializedVersion: 2
-      m_Bits: 55
+      m_Bits: 63
 --- !u!95 &919132148507858994
 Animator:
   serializedVersion: 4

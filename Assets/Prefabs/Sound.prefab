@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8442069326145166399}
   - component: {fileID: 8442069326145166398}
   - component: {fileID: 8442069326145166397}
-  - component: {fileID: 8442069326145166396}
+  - component: {fileID: 140506448}
   m_Layer: 9
   m_Name: Sound
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8442069326145166395}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.13, z: 2.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -84,16 +84,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8442069326145166396
-SphereCollider:
+--- !u!114 &140506448
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8442069326145166395}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb9af5fe3eb80c44958bb99450d45f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startIntervalN: 0.5
+  _finishIntervalN: 3
+  _startIntervalD: 0.5
+  _finishIntervalD: 3
+  _meshRenderer: {fileID: 8442069326145166397}
+  _normalMaterial: {fileID: 2100000, guid: 7048bb980c8fb3b41a094a5486cf109d, type: 2}
+  _dangerMaterial: {fileID: 2100000, guid: 9e2f6d3de07416f4c941f18024eebcd3, type: 2}

@@ -20,6 +20,10 @@ public class InGameController : MonoBehaviour
     [SerializeField]
     private EnemyPool _enemyPool;
 
+    [Tooltip("SoundEffectのオブジェクトプール")]
+    [SerializeField]
+    private SoundEffectPool _soundEffectPool;
+
     [Tooltip("GUIの管理をするクラス")]
     [SerializeField]
     private GUIPresenter _gui;
@@ -28,7 +32,7 @@ public class InGameController : MonoBehaviour
     {
         CursorInit();
         _player.Initialize(_bulletPool);
-        _enemyGenerator.Initialize(_player, _bulletPool, _enemyPool);
+        _enemyGenerator.Initialize(_player, _bulletPool, _enemyPool, _soundEffectPool);
         _gui.Initialize(_player);
     }
 

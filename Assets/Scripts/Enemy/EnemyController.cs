@@ -38,13 +38,17 @@ public class EnemyController : MonoBehaviour, IKnockBackable
 
     //private readonly CancellationTokenSource _tokenSource = new();
 
-    public void Initialize(PlayerController player, NormalBulletPool bulletPool, EnemyPool enemyPool)
+    public void Initialize(
+        PlayerController player,
+        NormalBulletPool bulletPool,
+        EnemyPool enemyPool, 
+        SoundEffectPool soundPool)
     {
         _player = player;
 
         //機能ごとのクラスの初期化を実行
-        _attacker.Initialize(_player, _animator, bulletPool);
-        _mover.Initialize(_player, _navMesh);
+        _attacker.Initialize(_player, _animator, bulletPool, soundPool);
+        _mover.Initialize(this, _player, _navMesh, soundPool);
         _searcher.Initialize(_player);
         _death.Initialize(_animator, _navMesh, enemyPool, this, _speed);
 
@@ -81,10 +85,10 @@ public class EnemyController : MonoBehaviour, IKnockBackable
         _attacker.AttackStop();
     }
 
-    public void Move()
+    public void Move(float deltaTime)
     {
         //NavMeshを使用して移動させる
-        _mover.Move();
+        _mover.Move(deltaTime);
     }
 
     public bool PlayerSearch()

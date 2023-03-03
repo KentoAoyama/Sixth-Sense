@@ -31,13 +31,18 @@ public class EnemyGenerator : MonoBehaviour
     private PlayerController _player;
     private NormalBulletPool _bulletPool;
     private EnemyPool _enemyPool;
+    private SoundEffectPool _soundEffectPool;
 
     /// <summary>
     /// 生成した敵を保持するリスト
     /// </summary>
     private List<EnemyController> _enemys = new();
 
-    public void Initialize(PlayerController player, NormalBulletPool bulletPool, EnemyPool enemyPool)
+    public void Initialize(
+        PlayerController player, 
+        NormalBulletPool bulletPool, 
+        EnemyPool enemyPool, 
+        SoundEffectPool soundEffectPool)
     {
         //配列の長さがオーバーしていないかチェック
         if (_generatePos.Length > MAX_POS_LENGTH)
@@ -56,6 +61,7 @@ public class EnemyGenerator : MonoBehaviour
         _player = player;
         _bulletPool = bulletPool;
         _enemyPool = enemyPool;
+        _soundEffectPool = soundEffectPool;
     }
 
     public void ManualUpdate(float deltaTime)
@@ -79,7 +85,7 @@ public class EnemyGenerator : MonoBehaviour
             if (!_enemys.Contains(enemy)) 
             {
                 _enemys.Add(enemy);
-                enemy.Initialize(_player, _bulletPool, _enemyPool);
+                enemy.Initialize(_player, _bulletPool, _enemyPool, _soundEffectPool);
             }
             //既に追加されていたらStateを変更する
             else

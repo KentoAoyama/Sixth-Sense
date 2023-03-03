@@ -37,6 +37,8 @@ public class EnemyAttack
 
     private Animator _animator;
 
+    private SoundEffectPool _soundEffectPool;
+
     private float _timer = 0;
 
     /// <summary>
@@ -44,11 +46,17 @@ public class EnemyAttack
     /// </summary>
     private NormalBulletPool _normalBulletPool;
 
-    public void Initialize(PlayerController player, Animator animator, NormalBulletPool bulletPool)
+    public void Initialize(PlayerController player,
+        Animator animator, 
+        NormalBulletPool bulletPool,
+        SoundEffectPool soundEffectPool)
     {
         _player = player;
         _animator = animator;
         _normalBulletPool = bulletPool;
+        _soundEffectPool = soundEffectPool;
+
+        _timer = _interval;
     }
 
     public void SetIK()
@@ -91,7 +99,12 @@ public class EnemyAttack
             bullet.transform.forward = _player.transform.position - _muzzle.transform.position;
 
             //弾を動かす
-            bullet.GetComponent<NormalBulletController>().MoveStart(_normalBulletPool.Pool);
+            bullet.GetComponent<NormalBulletController>()
+                .MoveStart(_normalBulletPool, _soundEffectPool);
+
+            //音のエフェクトを生成
+            SoundEffect soundEffect = _soundEffectPool.Pool.Get();
+            soundEffect.Initialize(_soundEffectPool, SoundEffectType.Danger, _muzzle.position);
 
             _timer = 0;
         }
