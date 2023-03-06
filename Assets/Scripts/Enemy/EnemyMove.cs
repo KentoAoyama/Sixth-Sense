@@ -22,14 +22,22 @@ public class EnemyMove
 
     private SoundEffectPool _soundEffectPool;
 
+    private Speed _speed;
+
     private float _timer = 0f;
 
-    public void Initialize(EnemyController enemy, PlayerController player, NavMeshAgent navMesh, SoundEffectPool soundEffectPool)
+    public void Initialize(
+        EnemyController enemy, 
+        PlayerController player, 
+        NavMeshAgent navMesh, 
+        SoundEffectPool soundEffectPool,
+        Speed speed)
     {
         _enemy = enemy;
         _player = player;
         _navMesh = navMesh;
         _soundEffectPool = soundEffectPool;
+        _speed = speed;
 
         _timer = _soundInterval;
     }
@@ -40,15 +48,16 @@ public class EnemyMove
             .SetDestination(
             _player.gameObject.transform.position);
 
-        if (_navMesh.speed != _moveSpeed) _navMesh.speed = _moveSpeed;
+        if (_navMesh.speed != _moveSpeed * _speed.CurrentSpeed)
+            _navMesh.speed = _moveSpeed * _speed.CurrentSpeed;
 
         //一定時間ごとにサウンドエフェクトを生成
-        _timer += deltaTime;
+        _timer += deltaTime * _speed.CurrentSpeed;
 
         if (_timer > _soundInterval)
         {
             SoundEffect soundEffect = _soundEffectPool.Pool.Get();
-            soundEffect.Initialize(_soundEffectPool, SoundEffectType.Danger, _enemy.transform.position);
+            soundEffect.Initialize(_soundEffectPool, SoundEffectType.Danger1, _enemy.transform.position);
 
             _timer = 0;
         }

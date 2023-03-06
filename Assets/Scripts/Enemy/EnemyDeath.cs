@@ -73,7 +73,7 @@ public class EnemyDeath
 
     private List<Collider> _colliders = new();
     private Transform[] _childrenObjects;
-    private Transform[] _copyChildrenObjects;
+    //private Transform[] _copyChildrenObjects;
     private Rigidbody[] _rbs;
 
     private Animator _animator;
@@ -81,19 +81,27 @@ public class EnemyDeath
     private IObjectPool<EnemyController> _objectPool;
     private EnemyController _enemy;
     private Speed _speed;
+    private ScoreController _scoreController;
 
     /// <summary>
     /// 現在消しているコライダー
     /// </summary>
     private Collider _deletedCollider;
 
-    public void Initialize(Animator animator, NavMeshAgent navMesh, EnemyPool pool, EnemyController enemy, Speed speed)
+    public void Initialize(
+        Animator animator,
+        NavMeshAgent navMesh,
+        EnemyPool pool, 
+        EnemyController enemy, 
+        Speed speed,
+        ScoreController scoreController)
     {
         _animator = animator;
         _navMesh = navMesh;
         _objectPool = pool.Pool;
         _enemy = enemy;
         _speed = speed;
+        _scoreController = scoreController;
 
         //layerを変更するため全てのオブジェクトを取得
         _childrenObjects = _enemy.gameObject.transform.GetComponentsInChildren<Transform>();
@@ -123,11 +131,12 @@ public class EnemyDeath
     public void KnockBack(Collider collider, Vector3 dir)
     {
         Debug.Log("KnockBack");
-        BodyBreak(collider);
 
         //弾が当たった部位のコライダーに力を加える
         Rigidbody rb = collider.gameObject.GetComponent<Rigidbody>();
         rb.AddForce(dir * _knockBackPower, ForceMode.Impulse);
+
+        BodyBreak(collider);
     }
 
     private void BodyBreak(Collider collider)
@@ -148,10 +157,12 @@ public class EnemyDeath
         {
             child.gameObject.layer = 8;
         }
+
         //アニメーターとNavMeshを切ってラグドール化させる
         _animator.enabled = false;
         _navMesh.enabled = false;
-        
+
+        _scoreController.AddScore();
     }
 
     public void Revive()

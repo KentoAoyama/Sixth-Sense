@@ -39,6 +39,8 @@ public class EnemyAttack
 
     private SoundEffectPool _soundEffectPool;
 
+    private Speed _speed;
+
     private float _timer = 0;
 
     /// <summary>
@@ -49,14 +51,16 @@ public class EnemyAttack
     public void Initialize(PlayerController player,
         Animator animator, 
         NormalBulletPool bulletPool,
-        SoundEffectPool soundEffectPool)
+        SoundEffectPool soundEffectPool,
+        Speed speed)
     {
         _player = player;
         _animator = animator;
         _normalBulletPool = bulletPool;
         _soundEffectPool = soundEffectPool;
+        _speed = speed;
 
-        _timer = _interval;
+        _timer = _interval / 2;
     }
 
     public void SetIK()
@@ -87,7 +91,7 @@ public class EnemyAttack
     public void Attack(float deltaTime)
     {
         //射撃のインターバル
-        _timer += deltaTime;
+        _timer += deltaTime * _speed.CurrentSpeed;
 
         if (_timer > _interval)
         {
@@ -104,7 +108,7 @@ public class EnemyAttack
 
             //音のエフェクトを生成
             SoundEffect soundEffect = _soundEffectPool.Pool.Get();
-            soundEffect.Initialize(_soundEffectPool, SoundEffectType.Danger, _muzzle.position);
+            soundEffect.Initialize(_soundEffectPool, SoundEffectType.Danger2, _muzzle.position);
 
             _timer = 0;
         }

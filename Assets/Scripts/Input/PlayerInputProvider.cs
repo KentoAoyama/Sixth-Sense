@@ -22,4 +22,9 @@ public class PlayerInputProvider : IInputProvider
     {
         return Input.GetButton("Fire2");
     }
+
+    public bool GetEscape()
+    {
+        return Input.GetButton("Cancel");
+    }
 }

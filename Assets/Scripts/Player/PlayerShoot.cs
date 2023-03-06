@@ -32,17 +32,22 @@ public class PlayerShoot
     [SerializeField]
     private Image _crassHair;
 
+    [SerializeField]
+    private AudioSource _audio;
+
     public event Action OnBulletShoot;
 
     private NormalBulletPool _normalBulletPool;
     private SoundEffectPool _soundEffectPool;
+    private Speed _speed;
 
     private float _shootIntervalTimer = 0f;
 
-    public void Initialize(NormalBulletPool bulletPool, SoundEffectPool soundEffectPool)
+    public void Initialize(NormalBulletPool bulletPool, SoundEffectPool soundEffectPool, Speed speed)
     {
         _normalBulletPool = bulletPool;
         _soundEffectPool = soundEffectPool;
+        _speed = speed;
     }
 
     /// <summary>
@@ -52,12 +57,13 @@ public class PlayerShoot
     public void BulletShoot(bool isShoot, float deltaTime) //TODO：UniRxでのインターバル処理をやってみる
     {
         //インターバルにカウントを加算
-        _shootIntervalTimer += deltaTime;
+        _shootIntervalTimer += deltaTime * _speed.CurrentSpeed;
 
         if (isShoot && _shootInterval < _shootIntervalTimer)
         {
             //eventを実行
             OnBulletShoot?.Invoke();
+            _audio.Play();
 
             //場合に応じた弾を生成
             NormalBulletController bulletController = _normalBulletPool.Pool.Get();

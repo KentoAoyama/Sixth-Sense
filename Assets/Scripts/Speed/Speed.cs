@@ -1,6 +1,5 @@
-using System;
-using UnityEngine;
 using UniRx;
+using DG.Tweening;
 
 /// <summary>
 /// 速度に関するFloat型の値を取り扱うためのクラス
@@ -20,11 +19,16 @@ public class Speed
     /// </summary>
     public float CurrentSpeed => _speed.Value;
 
+    private SpeedType _speedType;
+    public SpeedType SpeedType => _speedType;
+
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    public Speed()
+    public Speed(SpeedType speedType)
     {
+        _speedType = speedType;
+
         //現在のスピードの値を適用
         _speed.Value = SpeedManager.CurrentSpeed;
         SpeedManager.Subscribe(this);

@@ -9,22 +9,22 @@ public class PlayerMove
     [SerializeField]
     private float _moveSpeed = 1000f;
 
-    private readonly Speed _speed = new();
-
     private Rigidbody _rb;
     private Transform _transform;
+    private Speed _speed;
 
-    public void Initialize(Rigidbody rb, Transform transform)
+    public void Initialize(Rigidbody rb, Transform transform, Speed speed)
     {
         _rb = rb;
         _transform = transform;
+        _speed = speed;
     }
 
     /// <summary>
     /// プレイヤーの移動処理
     /// </summary>
     /// <param name="moveDir">移動方向</param>
-    /// <param name="deltaTime">速度がUpdate内でも変わらないようにするために使用するdeltaTime</param>
+    /// <param name="deltaTime">速度がUpdate内で呼びだしても変わらないようにするために使用するdeltaTime</param>
     public void Move(Vector2 moveDir)
     {
         //移動する方向を計算

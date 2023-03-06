@@ -9,11 +9,6 @@ public class SpeedManager
     /// </summary>
     private static List<Speed> _speedList = new();
 
-    /// <summary>
-    /// 現在のスピードを保存しておく用のList
-    /// </summary>
-    private List<float> _currentSpeedList = new();
-
     private static float _currentSpeed = 1f;
     public static float CurrentSpeed => _currentSpeed;
 
@@ -38,7 +33,6 @@ public class SpeedManager
     /// </summary>
     public void Pause()
     {
-        _speedList.ForEach(s => _currentSpeedList.Add(s.CurrentSpeed));
         ChangeSpeed(0f, ChangeSpeedType.All);
     }
 
@@ -47,10 +41,7 @@ public class SpeedManager
     /// </summary>
     public void Resume()
     {
-        for (int i = 0; i < _speedList.Count; i++)
-        {
-            _speedList[i].ChangeValue(_currentSpeedList[i]);
-        }
+        ChangeSpeed(1f, ChangeSpeedType.All);
     }
 
     public void ChangeSpeed(float value, ChangeSpeedType type)
@@ -59,6 +50,24 @@ public class SpeedManager
 
         foreach (var speed in _speedList)
         {
+            switch(type)
+            {
+                case ChangeSpeedType.All:
+                    speed.ChangeValue(value);
+
+                    break;
+                case ChangeSpeedType.NonPlayer:
+                    if (speed.SpeedType != SpeedType.Player)
+                        speed.ChangeValue(value);
+
+                    break;
+                case ChangeSpeedType.NonUI:
+                    if (speed.SpeedType != SpeedType.UI)
+                        speed.ChangeValue(value);
+
+                    break;
+            }
+                
             speed.ChangeValue(value);
         }
     }

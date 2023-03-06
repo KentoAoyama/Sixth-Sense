@@ -3,5 +3,18 @@
 /// </summary>
 public enum ChangeSpeedType
 {
-    All
+    All,
+    NonPlayer,
+    NonUI,
+}
+
+/// <summary>
+/// そのスピードの値を持っているものの種類
+/// </summary>
+public enum SpeedType
+{
+    Player,
+    Enemy,
+    UI,
+    Bullet
 }

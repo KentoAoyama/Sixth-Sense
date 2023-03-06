@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using UniRx;
+using System;
 
 public class NormalBulletController : MonoBehaviour
 {
@@ -14,9 +16,12 @@ public class NormalBulletController : MonoBehaviour
     private float _destroyInterval = 10f;
 
     [SerializeField]
+    private float _time = 0.4f;
+
+    [SerializeField]
     private TrailRenderer _trail;
 
-    private readonly Speed _speed = new();
+    private readonly Speed _speed = new(SpeedType.Bullet);
 
     private IObjectPool<NormalBulletController> _bulletPool;
 
@@ -43,6 +48,16 @@ public class NormalBulletController : MonoBehaviour
 
         //破棄を行うコルーチンを実行
         _delayCoroutine = StartCoroutine(DestoryInterval());
+
+        _speed.SpeedRp
+            .First()
+            .Subscribe(ChangeSpeed)
+            .AddTo(gameObject);
+    }
+
+    private void ChangeSpeed(float speed)
+    {
+        _trail.time = _time / speed;
     }
 
     private IEnumerator DestoryInterval()

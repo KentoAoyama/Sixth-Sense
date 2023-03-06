@@ -7,7 +7,8 @@ using UnityEngine.Pool;
 public enum SoundEffectType
 {
     Normal,
-    Danger
+    Danger1,
+    Danger2
 }
 
 public class SoundEffect : MonoBehaviour
@@ -36,6 +37,12 @@ public class SoundEffect : MonoBehaviour
     [SerializeField]
     private Material _dangerMaterial;
 
+    [SerializeField]
+    private AudioSource _danger1Audio;
+
+    [SerializeField]
+    private AudioSource _danger2Audio;
+
     private IObjectPool<SoundEffect> _objectPool;
 
     private float _startInterval = 0f;
@@ -54,11 +61,21 @@ public class SoundEffect : MonoBehaviour
                 _startInterval = _startIntervalN;
                 _finishInterval = _finishIntervalN;
                 break;
-            case SoundEffectType.Danger:
+            case SoundEffectType.Danger1:
                 _meshRenderer.material = _dangerMaterial;
                 gameObject.layer = 9;
                 _startInterval = _startIntervalD;
                 _finishInterval = _finishIntervalD;
+                _danger1Audio.Play();
+
+                break;
+            case SoundEffectType.Danger2:
+                _meshRenderer.material = _dangerMaterial;
+                gameObject.layer = 9;
+                _startInterval = _startIntervalD;
+                _finishInterval = _finishIntervalD;
+                _danger2Audio.Play();
+
                 break;
         }
 

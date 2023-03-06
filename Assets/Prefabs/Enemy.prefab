@@ -2871,7 +2871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7804001027317995664
 Transform:
   m_ObjectHideFlags: 0
@@ -2933,8 +2933,8 @@ MonoBehaviour:
     _handPositionWeight: 1
     _handRotationWeight: 1
   _mover:
-    _moveSpeed: 1
-    _soundInterval: 3
+    _moveSpeed: 2
+    _soundInterval: 2
   _death:
     _head: {fileID: 7687346005190944583}
     _rightArm: {fileID: 8859567156015772865}
@@ -2947,11 +2947,11 @@ MonoBehaviour:
     _rightLeg: {fileID: 4702939791477190321}
     _leftUpLeg: {fileID: 2080307180476090377}
     _leftLeg: {fileID: 7938088262539716205}
-    _knockBackPower: 1.95
+    _knockBackPower: 100
     _angularDrag: 50
     _interval: 5
   _searcher:
-    _searchLength: 10
+    _searchLength: 18
     _head: {fileID: 101657121421901146}
     _layer:
       serializedVersion: 2

@@ -25,14 +25,22 @@ public class PlayerCloseEye
     [SerializeField]
     private GameObject _eyelidObject;
 
+    [Tooltip("目を閉じた際に変化するスピード")]
+    [SerializeField, Range(0f, 1f)]
+    private float _changeSpeed = 0.5f;
+
     private PlayerController _player;
+
+    private SpeedController _speedController;
 
     private const float CLOSE_HEIGHT_VALUE = 120f;
     private const float OPEN_HEIGHT_VALUE = 320f;
 
-    public void Initialize(PlayerController player)
+    public void Initialize(PlayerController player, SpeedController speedController)
     {
         _player = player;
+        _speedController = speedController;
+
         _eyelidObject.SetActive(false);
 
         player.ObserveEveryValueChanged(c => player.Input.GetCloseEye())
@@ -56,13 +64,11 @@ public class PlayerCloseEye
 
     private void Close()
     {
-        Debug.Log("Close");
         EyelidTween(CLOSE_HEIGHT_VALUE).OnComplete(Check);
     }
 
     private void Open()
     {
-        Debug.Log("Open");
         CloseEyelidActive(false);
         EyelidTween(OPEN_HEIGHT_VALUE).OnComplete(Check);
     }
@@ -86,6 +92,7 @@ public class PlayerCloseEye
     private Sequence EyelidTween(float value)
     {
         var sequence = DOTween.Sequence();
+        //瞼を動かして、最後に閉じ切っているか判定する
         return sequence
             .Insert(0f, _upEyelids.rectTransform.DOLocalMoveY(value, _duration))
             .Insert(0f, _downEyelids.rectTransform.DOLocalMoveY(-value, _duration))
@@ -105,11 +112,13 @@ public class PlayerCloseEye
         if (isClose)
         {
             Camera.main.cullingMask = -1;
+            _speedController.SpeedChange(_changeSpeed, ChangeSpeedType.NonPlayer);
         }
         else
         {
             Camera.main.cullingMask &= ~(1 << 9);
             Camera.main.cullingMask &= ~(1 << 10);
+            _speedController.SpeedChange(1f);
         }
     }
 }

@@ -19,4 +19,10 @@ public interface IInputProvider
     /// </summary>
     /// <returns>目を閉じる入力判定</returns>
     bool GetCloseEye();
+
+    /// <summary>
+    /// エスケープ入力
+    /// </summary>
+    /// <returns>エスケープの入力判定</returns>
+    bool GetEscape();
 }

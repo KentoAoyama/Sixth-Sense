@@ -32,6 +32,7 @@ public class EnemyGenerator : MonoBehaviour
     private NormalBulletPool _bulletPool;
     private EnemyPool _enemyPool;
     private SoundEffectPool _soundEffectPool;
+    private ScoreController _scoreController;
 
     /// <summary>
     /// 生成した敵を保持するリスト
@@ -42,7 +43,8 @@ public class EnemyGenerator : MonoBehaviour
         PlayerController player, 
         NormalBulletPool bulletPool, 
         EnemyPool enemyPool, 
-        SoundEffectPool soundEffectPool)
+        SoundEffectPool soundEffectPool,
+        ScoreController scoreController)
     {
         //配列の長さがオーバーしていないかチェック
         if (_generatePos.Length > MAX_POS_LENGTH)
@@ -53,7 +55,7 @@ public class EnemyGenerator : MonoBehaviour
         //指定したインデックスの要素があるか判定
         foreach (int n in _generatePosIndex)
         {
-            if (n > _generatePos.Length)
+            if (n > _generatePos.Length - 1)
                 Debug.LogError("GeneratePosIndexの要素が、配列の要素外を指定しています");
         }
 
@@ -62,6 +64,7 @@ public class EnemyGenerator : MonoBehaviour
         _bulletPool = bulletPool;
         _enemyPool = enemyPool;
         _soundEffectPool = soundEffectPool;
+        _scoreController = scoreController;
     }
 
     public void ManualUpdate(float deltaTime)
@@ -77,7 +80,7 @@ public class EnemyGenerator : MonoBehaviour
 
         _timer += deltaTime;
 
-        if (_timer > _interval)
+        if (_timer > Mathf.Max(2f, _interval - _generateCount * 0.05f))
         {
             //敵を生成
             EnemyController enemy = _enemyPool.Pool.Get();
@@ -85,7 +88,7 @@ public class EnemyGenerator : MonoBehaviour
             if (!_enemys.Contains(enemy)) 
             {
                 _enemys.Add(enemy);
-                enemy.Initialize(_player, _bulletPool, _enemyPool, _soundEffectPool);
+                enemy.Initialize(_player, _bulletPool, _enemyPool, _soundEffectPool, _scoreController);
             }
             //既に追加されていたらStateを変更する
             else
@@ -109,6 +112,17 @@ public class EnemyGenerator : MonoBehaviour
             foreach (var enemy in _enemys)
             {
                 enemy.ManualUpdate(deltaTime);
+            }
+        }
+    }
+
+    public void DestroyEnemy()
+    {
+        if (_enemys.Count > 0)
+        {
+            foreach (var enemy in _enemys)
+            {
+                Destroy(enemy.gameObject);
             }
         }
     }

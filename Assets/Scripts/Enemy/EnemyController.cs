@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UniRx;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
@@ -34,7 +35,7 @@ public class EnemyController : MonoBehaviour, IKnockBackable
     private readonly EnemyStateMachine _stateMachine = new();
     public EnemyStateMachine StateMachine => _stateMachine;
 
-    private Speed _speed = new();
+    private Speed _speed = new(SpeedType.Enemy);
 
     //private readonly CancellationTokenSource _tokenSource = new();
 
@@ -42,18 +43,28 @@ public class EnemyController : MonoBehaviour, IKnockBackable
         PlayerController player,
         NormalBulletPool bulletPool,
         EnemyPool enemyPool, 
-        SoundEffectPool soundPool)
+        SoundEffectPool soundPool,
+        ScoreController scoreController)
     {
         _player = player;
 
         //機能ごとのクラスの初期化を実行
-        _attacker.Initialize(_player, _animator, bulletPool, soundPool);
-        _mover.Initialize(this, _player, _navMesh, soundPool);
+        _attacker.Initialize(_player, _animator, bulletPool, soundPool, _speed);
+        _mover.Initialize(this, _player, _navMesh, soundPool, _speed);
         _searcher.Initialize(_player);
-        _death.Initialize(_animator, _navMesh, enemyPool, this, _speed);
+        _death.Initialize(_animator, _navMesh, enemyPool, this, _speed, scoreController);
 
         //StateMachineを初期化し、Stateを設定
         _stateMachine.Initialized(new SearchState(this));
+
+        _speed.SpeedRp
+            .Subscribe(ChangeSpeed)
+            .AddTo(gameObject);
+    }
+
+    private void ChangeSpeed(float speed)
+    {
+        _animator.speed = speed;
     }
 
     private void OnAnimatorIK(int layerIndex)
@@ -113,6 +124,7 @@ public class EnemyController : MonoBehaviour, IKnockBackable
     public void Revive()
     {
         _death.Revive();
+        ChangeSpeed(_speed.CurrentSpeed);
     }
 
     /// <summary>
@@ -121,6 +133,11 @@ public class EnemyController : MonoBehaviour, IKnockBackable
     public void DeadUpdate(float deltaTime)
     {
         _death.DeadUpdate(deltaTime);
+    }
+
+    private void OnDisable()
+    {
+        _speed.Unsubscribe();
     }
 }
 
