@@ -29,9 +29,7 @@ public class EnemyGenerator : MonoBehaviour
     private int _generateCount = 0;
 
     private PlayerController _player;
-    private NormalBulletPool _bulletPool;
-    private EnemyPool _enemyPool;
-    private SoundEffectPool _soundEffectPool;
+    private ObjectPoolsController _objectPool;
     private ScoreController _scoreController;
 
     /// <summary>
@@ -41,9 +39,7 @@ public class EnemyGenerator : MonoBehaviour
 
     public void Initialize(
         PlayerController player, 
-        NormalBulletPool bulletPool, 
-        EnemyPool enemyPool, 
-        SoundEffectPool soundEffectPool,
+        ObjectPoolsController objectPool, 
         ScoreController scoreController)
     {
         //配列の長さがオーバーしていないかチェック
@@ -61,9 +57,7 @@ public class EnemyGenerator : MonoBehaviour
 
         //InGameControllerから参照を受け取る
         _player = player;
-        _bulletPool = bulletPool;
-        _enemyPool = enemyPool;
-        _soundEffectPool = soundEffectPool;
+        _objectPool = objectPool;
         _scoreController = scoreController;
     }
 
@@ -83,12 +77,12 @@ public class EnemyGenerator : MonoBehaviour
         if (_timer > Mathf.Max(2f, _interval - _generateCount * 0.05f))
         {
             //敵を生成
-            EnemyController enemy = _enemyPool.Pool.Get();
+            EnemyController enemy = _objectPool.EnemyPool.Pool.Get();
             //まだ追加されていなければListに追加、初期化処理
             if (!_enemys.Contains(enemy)) 
             {
                 _enemys.Add(enemy);
-                enemy.Initialize(_player, _bulletPool, _enemyPool, _soundEffectPool, _scoreController);
+                enemy.Initialize(_player, _objectPool, _scoreController);
             }
             //既に追加されていたらStateを変更する
             else

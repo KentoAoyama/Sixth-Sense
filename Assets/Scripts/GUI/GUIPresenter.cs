@@ -32,8 +32,6 @@ public class GUIPresenter : MonoBehaviour
 
     private PlayerController _player;
 
-    private InGameController _gameController;
-
     private readonly Speed _speed = new (SpeedType.UI);
 
     /// <summary>
@@ -44,18 +42,16 @@ public class GUIPresenter : MonoBehaviour
     public void Initialize(
         PlayerController player, 
         IInputProvider input, 
-        InGameController gameController,
         SpeedController speedController,
         ScoreController scoreController)
     {
         _player = player;
         _input = input;
-        _gameController = gameController;
         _scoreController = scoreController;
 
         _scoreTextController.Initialize();
         _crossHair.Initialize(_player.Shooter.ShootInterval);
-        _help.Initialized(gameController, speedController);
+        _help.Initialized(speedController);
         _result.Initialize();
 
         //射撃時に実行されるイベントに登録する
@@ -76,17 +72,17 @@ public class GUIPresenter : MonoBehaviour
         _crossHair.TweenTimeChange(speed);
     }
 
-    public void ManualUpdate()
+    public void ManualUpdate(InGameState gameState)
     {
-        if (_input.GetEscape() && _gameController.GameState != InGameState.Finish)
+        if (_input.GetEscape() && gameState != InGameState.Finish)
         {
-            if (_gameController.GameState != InGameState.Pause)
+            if (gameState != InGameState.Pause)
             {
-                _help.OpenHelp();
+                _help.OpenHelp(gameState);
             }
             else
             {
-                _help.CloseHelp();
+                _help.CloseHelp(gameState);
             }
         }
     }

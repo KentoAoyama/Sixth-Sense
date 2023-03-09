@@ -233,6 +233,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sound (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8442069326145166395, guid: 69c8c7b1e8e9f9248aad1a0b140bf263,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8442069326145166399, guid: 69c8c7b1e8e9f9248aad1a0b140bf263,
         type: 3}
       propertyPath: m_RootOrder

@@ -41,18 +41,16 @@ public class EnemyController : MonoBehaviour, IKnockBackable
 
     public void Initialize(
         PlayerController player,
-        NormalBulletPool bulletPool,
-        EnemyPool enemyPool, 
-        SoundEffectPool soundPool,
+        ObjectPoolsController objectPool,
         ScoreController scoreController)
     {
         _player = player;
 
         //機能ごとのクラスの初期化を実行
-        _attacker.Initialize(_player, _animator, bulletPool, soundPool, _speed);
-        _mover.Initialize(this, _player, _navMesh, soundPool, _speed);
+        _attacker.Initialize(_player, _animator, objectPool, _speed);
+        _mover.Initialize(_player, _navMesh, objectPool, _speed);
         _searcher.Initialize(_player);
-        _death.Initialize(_animator, _navMesh, enemyPool, this, _speed, scoreController);
+        _death.Initialize(_animator, _navMesh, objectPool, _speed, scoreController, gameObject);
 
         //StateMachineを初期化し、Stateを設定
         _stateMachine.Initialized(new SearchState(this));
@@ -99,7 +97,7 @@ public class EnemyController : MonoBehaviour, IKnockBackable
     public void Move(float deltaTime)
     {
         //NavMeshを使用して移動させる
-        _mover.Move(deltaTime);
+        _mover.Move(deltaTime, transform.position);
     }
 
     public bool PlayerSearch()
@@ -132,7 +130,8 @@ public class EnemyController : MonoBehaviour, IKnockBackable
     /// </summary>
     public void DeadUpdate(float deltaTime)
     {
-        _death.DeadUpdate(deltaTime);
+        //deltaTimeとPoolに返す自身のインスタンスを渡す
+        _death.DeadUpdate(deltaTime, this);
     }
 
     private void OnDisable()

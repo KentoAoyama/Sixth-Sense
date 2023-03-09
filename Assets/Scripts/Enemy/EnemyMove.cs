@@ -14,35 +14,31 @@ public class EnemyMove
     [SerializeField]
     private float _soundInterval = 3f;
 
-    private EnemyController _enemy;
-
     private PlayerController _player;
 
     private NavMeshAgent _navMesh;
 
-    private SoundEffectPool _soundEffectPool;
+    private ObjectPoolsController _objectPool;
 
     private Speed _speed;
 
     private float _timer = 0f;
 
     public void Initialize(
-        EnemyController enemy, 
         PlayerController player, 
         NavMeshAgent navMesh, 
-        SoundEffectPool soundEffectPool,
+        ObjectPoolsController objectPool,
         Speed speed)
     {
-        _enemy = enemy;
         _player = player;
         _navMesh = navMesh;
-        _soundEffectPool = soundEffectPool;
+        _objectPool = objectPool;
         _speed = speed;
 
         _timer = _soundInterval;
     }
 
-    public void Move(float deltaTime)
+    public void Move(float deltaTime, Vector3 soundCreatePos)
     {
         _navMesh
             .SetDestination(
@@ -56,8 +52,8 @@ public class EnemyMove
 
         if (_timer > _soundInterval)
         {
-            SoundEffect soundEffect = _soundEffectPool.Pool.Get();
-            soundEffect.Initialize(_soundEffectPool, SoundEffectType.Danger1, _enemy.transform.position);
+            SoundEffect soundEffect = _objectPool.SoundEffectPool.Pool.Get();
+            soundEffect.Initialize(_objectPool.SoundEffectPool.Pool, SoundEffectType.Danger1, soundCreatePos);
 
             _timer = 0;
         }

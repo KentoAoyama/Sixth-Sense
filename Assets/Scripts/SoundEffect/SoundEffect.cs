@@ -48,9 +48,9 @@ public class SoundEffect : MonoBehaviour
     private float _startInterval = 0f;
     private float _finishInterval = 0f;
 
-    public void Initialize(SoundEffectPool pool, SoundEffectType type, Vector3 position)
+    public void Initialize(IObjectPool<SoundEffect> objectPool, SoundEffectType type, Vector3 position)
     {
-        if (_objectPool == null)_objectPool = pool.Pool;
+        if (_objectPool == null)_objectPool = objectPool;
 
         //音のタイプごとに値を設定する
         switch(type)

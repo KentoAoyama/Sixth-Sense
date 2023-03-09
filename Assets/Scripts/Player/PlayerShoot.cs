@@ -37,16 +37,14 @@ public class PlayerShoot
 
     public event Action OnBulletShoot;
 
-    private NormalBulletPool _normalBulletPool;
-    private SoundEffectPool _soundEffectPool;
+    private ObjectPoolsController _objectPool;
     private Speed _speed;
 
     private float _shootIntervalTimer = 0f;
 
-    public void Initialize(NormalBulletPool bulletPool, SoundEffectPool soundEffectPool, Speed speed)
+    public void Initialize(ObjectPoolsController objectPool, Speed speed)
     {
-        _normalBulletPool = bulletPool;
-        _soundEffectPool = soundEffectPool;
+        _objectPool = objectPool;
         _speed = speed;
     }
 
@@ -66,7 +64,7 @@ public class PlayerShoot
             _audio.Play();
 
             //場合に応じた弾を生成
-            NormalBulletController bulletController = _normalBulletPool.Pool.Get();
+            NormalBulletController bulletController = _objectPool.BulletPool.Pool.Get();
 
             GameObject bullet = bulletController.gameObject;
             bullet.transform.position = _muzzle.position;
@@ -83,8 +81,9 @@ public class PlayerShoot
                 bullet.transform.forward = Camera.main.transform.forward * _rayLength - _muzzle.transform.position;
             }
 
-            //弾を動かす
-            bullet.GetComponent<NormalBulletController>().MoveStart(_normalBulletPool, _soundEffectPool);
+            //弾を動かし、オブジェクトプールの参照を渡す
+            bullet.GetComponent<NormalBulletController>()
+                .MoveStart(_objectPool);
 
             //インターバルをリセット
             _shootIntervalTimer = 0f;

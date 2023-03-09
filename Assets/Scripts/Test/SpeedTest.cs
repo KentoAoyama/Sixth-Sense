@@ -1,39 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class SpeedTest : MonoBehaviour
 {
     [SerializeField]
-    private EnemyGenerator _generator;
+    private Rigidbody _rb;
 
     [SerializeField]
-    private NormalBulletPool _bulletPool;
+    private SpeedType _type;
 
-    [SerializeField]
-    private EnemyPool _enemyPool;
+    /// <summary>
+    /// 機能ごとに固有のスピードを保持させる
+    /// </summary>
+    private Speed _speed;
 
-    [SerializeField]
-    private Transform _muzzle;
-
-    void Start()
+    private void Start()
     {
-        _generator.Initialize(default, _bulletPool, _enemyPool, default, default);
+        _speed = new(_type);
+
+        //スピードが変わったら一度リセット
+        _speed.SpeedRp
+            .Subscribe(_ => _rb.velocity = new Vector3(0f, 0f, 0f))
+            .AddTo(gameObject);
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        float deltaTime = Time.deltaTime;
-
-        _generator.ManualUpdate(deltaTime);
-    }
-
-    public void CreateBullet()
-    {
-        NormalBulletController bulletController =  _bulletPool.Pool.Get();
-        GameObject bullet = bulletController.gameObject;
-        bullet.transform.position = _muzzle.position;
-
-        bullet.GetComponent<NormalBulletController>().MoveStart(_bulletPool, default);
+        _rb.AddForce(new Vector3(0f, -9.8f * _speed.CurrentSpeed, 0));
     }
 }

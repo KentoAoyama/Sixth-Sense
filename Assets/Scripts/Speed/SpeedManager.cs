@@ -67,8 +67,6 @@ public class SpeedManager
 
                     break;
             }
-                
-            speed.ChangeValue(value);
         }
     }
 

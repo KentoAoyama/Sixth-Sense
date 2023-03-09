@@ -22,17 +22,9 @@ public class InGameController : MonoBehaviour
     [SerializeField]
     private SpeedController _speedController;
 
-    [Tooltip("弾のオブジェクトプール")]
+    [Tooltip("オブジェクトプール")]
     [SerializeField]
-    private NormalBulletPool _bulletPool;
-
-    [Tooltip("敵のオブジェクトプール")]
-    [SerializeField]
-    private EnemyPool _enemyPool;
-
-    [Tooltip("SoundEffectのオブジェクトプール")]
-    [SerializeField]
-    private SoundEffectPool _soundEffectPool;
+    private ObjectPoolsController _objectPool;
 
     [Tooltip("GUIの管理をするクラス")]
     [SerializeField]
@@ -60,31 +52,32 @@ public class InGameController : MonoBehaviour
 
     private async UniTask ShowStart(CancellationToken token)
     {
-        _player.Initialize(_bulletPool, _soundEffectPool, _speedController, _input);
-        _enemyGenerator.Initialize(_player, _bulletPool, _enemyPool, _soundEffectPool, _scoreController);
-        _gui.Initialize(_player, _input, this, _speedController, _scoreController);
+        _player.Initialize(_objectPool, _speedController, _input);
+        _enemyGenerator.Initialize(_player, _objectPool, _scoreController);
+        _gui.Initialize(_player, _input, _speedController, _scoreController);
 
         //プレイヤーの被弾を監視する
         _player.ObserveEveryValueChanged(h => _player.IsHit)
             .Skip(1)
-            .Where(h => h == true)
+            .Where(h => h)
             .Subscribe(_ => GameOver())
             .AddTo(gameObject);
 
         ButtonInit();
         CursorInit();
 
+        //Fadeが終わるまでゲームを始めない
         await _fade.StartFadeIn(token);
 
-        Debug.Log("Game開始");
+        //ゲームを開始
         _gameState = InGameState.InGame;
     }
 
     private void Update()
     {
-        var deltaTime = Time.deltaTime;     
+        var deltaTime = Time.deltaTime;
 
-        _gui.ManualUpdate();
+        _gui.ManualUpdate(_gameState);
 
         //ゲーム中でないなら実行しない
         if (_gameState != InGameState.InGame) return;
@@ -94,6 +87,9 @@ public class InGameController : MonoBehaviour
         _enemyGenerator.ManualUpdate(deltaTime);
     }
 
+    /// <summary>
+    /// ボタンの機能を追加する
+    /// </summary>
     private void ButtonInit()
     {
         _gui.Help.RestartButton.OnPointerClickAsObservable()
@@ -102,6 +98,10 @@ public class InGameController : MonoBehaviour
 
         _gui.Help.MainMenuButton.OnPointerClickAsObservable()
             .Subscribe(_ => MainMenu())
+            .AddTo(gameObject);
+
+        _gui.Help.CloseButton.OnPointerClickAsObservable()
+            .Subscribe(_ => _gui.Help.CloseHelp(_gameState))
             .AddTo(gameObject);
 
         _gui.Result.RestartButton.OnPointerClickAsObservable()
@@ -113,6 +113,9 @@ public class InGameController : MonoBehaviour
             .AddTo(gameObject);
     }
 
+    /// <summary>
+    /// ゲームオーバー時に呼び出される処理
+    /// </summary>
     private void GameOver()
     {
         Cursor.visible = false;
@@ -122,6 +125,9 @@ public class InGameController : MonoBehaviour
         _gameState = InGameState.Finish;
     }
 
+    /// <summary>
+    /// リスタート時に呼び出される処理 TODO:シーンを再読み込みせず、そのシーンのままで初期化を行う
+    /// </summary>
     private void Restart()
     {
         _fade.StartFadeOut("InGameScene");

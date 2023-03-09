@@ -22,6 +22,7 @@ public class HelpController : MonoBehaviour
 
     [SerializeField]
     private Button _closeButton;
+    public Button CloseButton => _closeButton;
 
     [SerializeField]
     private Slider _slider;
@@ -31,13 +32,10 @@ public class HelpController : MonoBehaviour
 
     private CinemachinePOV _pov;
 
-    private InGameController _gameController;
-
     private SpeedController _speedController;
 
-    public void Initialized(InGameController gameController, SpeedController speedController)
+    public void Initialized(SpeedController speedController)
     {
-        _gameController = gameController;
         _speedController = speedController;
 
         _pov = _cinemachine.GetCinemachineComponent<CinemachinePOV>();
@@ -46,24 +44,20 @@ public class HelpController : MonoBehaviour
         _slider.maxValue = 2f;
         ChangeSensitivity(_slider.value);
 
-        _closeButton.OnPointerClickAsObservable()
-            .Subscribe(_ => CloseHelp())
-            .AddTo(gameObject);
-
         _helpObject.transform.localScale = new(0f, 0f, 0f);
     }
 
-    public void OpenHelp()
+    public void OpenHelp(InGameState gameState)
     {
         _speedController.Pause();
         _pov.m_VerticalAxis.m_MaxSpeed = 0f;
         _pov.m_HorizontalAxis.m_MaxSpeed = 0f;
         _helpObject.transform
             .DOScale(new Vector3(1f, 1f, 1f), 0.1f)
-            .OnComplete(() => _gameController.GameState = InGameState.Pause);
+            .OnComplete(() => gameState = InGameState.Pause);
     }
 
-    public void CloseHelp()
+    public void CloseHelp(InGameState gameState)
     {
         _speedController.Resume();
 
@@ -71,7 +65,7 @@ public class HelpController : MonoBehaviour
             .DOScale(new Vector3(0f, 0f, 0f), 0.1f)
             .OnComplete(() => 
             { 
-                _gameController.GameState = InGameState.InGame;
+                gameState = InGameState.InGame;
                 ChangeSensitivity(_slider.value);
             });
     }

@@ -78,8 +78,8 @@ public class EnemyDeath
 
     private Animator _animator;
     private NavMeshAgent _navMesh;
-    private IObjectPool<EnemyController> _objectPool;
-    private EnemyController _enemy;
+    private ObjectPoolsController _objectPool;
+    private GameObject _enemy;
     private Speed _speed;
     private ScoreController _scoreController;
 
@@ -91,23 +91,22 @@ public class EnemyDeath
     public void Initialize(
         Animator animator,
         NavMeshAgent navMesh,
-        EnemyPool pool, 
-        EnemyController enemy, 
+        ObjectPoolsController objectPool, 
         Speed speed,
-        ScoreController scoreController)
+        ScoreController scoreController,
+        GameObject enemy)
     {
         _animator = animator;
         _navMesh = navMesh;
-        _objectPool = pool.Pool;
-        _enemy = enemy;
+        _objectPool = objectPool;
         _speed = speed;
         _scoreController = scoreController;
 
         //layerを変更するため全てのオブジェクトを取得
-        _childrenObjects = _enemy.gameObject.transform.GetComponentsInChildren<Transform>();
+        _childrenObjects = enemy.gameObject.transform.GetComponentsInChildren<Transform>();
 
         //ラグドール時の挙動調整のためRigidBodyをすべて取得
-        _rbs = _enemy.transform.GetComponentsInChildren<Rigidbody>();
+        _rbs = enemy.transform.GetComponentsInChildren<Rigidbody>();
         foreach (var rb in _rbs)
         {
             rb.angularDrag = _angularDrag;
@@ -186,7 +185,7 @@ public class EnemyDeath
         _animator.enabled = true;
     }
 
-    public void DeadUpdate(float deltaTime)
+    public void DeadUpdate(float deltaTime, EnemyController enemyController)
     {
         _timer += deltaTime;
 
@@ -199,8 +198,8 @@ public class EnemyDeath
         //一定時間がたったらプールにオブジェクトを戻し、Stateを変更する
         if (_timer > _interval)
         {
-            _objectPool.Release(_enemy);
-            _enemy.StateMachine.TransitionState(new IdleState());
+            _objectPool.EnemyPool.Pool.Release(enemyController);
+            enemyController.StateMachine.TransitionState(new IdleState());
         }
     }
 }

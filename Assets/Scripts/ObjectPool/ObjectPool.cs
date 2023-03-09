@@ -5,10 +5,9 @@ using UnityEngine.Pool;
 /// オブジェクトプールを作る際に使用する抽象クラス
 /// </summary>
 /// <typeparam name="T">作成するオブジェクトプールのクラス</typeparam>
-public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
+[System.Serializable]
+public class ObjectPool<T> where T : MonoBehaviour
 {
-    [Header("ObjectPool")]
-
     [Tooltip("プールのデフォルトの容量")]
     [SerializeField]
     private int _poolCapacity = 20;
@@ -27,7 +26,7 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
     public IObjectPool<T> Pool => _pool;
 
 
-    private void Awake()
+    public ObjectPool()
     {
         //オブジェクトプールを作成
         _pool = new UnityEngine.Pool.ObjectPool<T>(
@@ -41,11 +40,11 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
     }
 
     /// <summary>
-    /// 弾を生成する処理
+    /// 生成する処理
     /// </summary>
     private T CreateBullet()
     {
-        T objectInstance = Instantiate(_prefab);
+        T objectInstance = GameObject.Instantiate(_prefab);
 
         return objectInstance;
     }
@@ -59,7 +58,7 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
     }
 
     /// <summary>
-    /// プールから一時削除する処理
+    /// プールに戻すときの処理
     /// </summary>
     public virtual void OnReleaseToPool(T poolObject)
     {
@@ -71,6 +70,6 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
     /// </summary>
     private void OnDestroyPooledObject(T poolObject)
     {
-        Destroy(poolObject.gameObject);
+        GameObject.Destroy(poolObject.gameObject);
     }
 }

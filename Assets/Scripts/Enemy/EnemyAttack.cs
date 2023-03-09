@@ -37,27 +37,20 @@ public class EnemyAttack
 
     private Animator _animator;
 
-    private SoundEffectPool _soundEffectPool;
+    private ObjectPoolsController _objectPool;
 
     private Speed _speed;
 
     private float _timer = 0;
 
-    /// <summary>
-    /// 弾のオブジェクトプール
-    /// </summary>
-    private NormalBulletPool _normalBulletPool;
-
     public void Initialize(PlayerController player,
         Animator animator, 
-        NormalBulletPool bulletPool,
-        SoundEffectPool soundEffectPool,
+        ObjectPoolsController objectPool,
         Speed speed)
     {
         _player = player;
         _animator = animator;
-        _normalBulletPool = bulletPool;
-        _soundEffectPool = soundEffectPool;
+        _objectPool = objectPool;
         _speed = speed;
 
         _timer = _interval / 2;
@@ -96,19 +89,18 @@ public class EnemyAttack
         if (_timer > _interval)
         {
             //場合に応じた弾を生成
-            NormalBulletController bulletController = _normalBulletPool.Pool.Get();
+            NormalBulletController bulletController = _objectPool.BulletPool.Pool.Get();
 
             GameObject bullet = bulletController.gameObject;
             bullet.transform.position = _muzzle.position;
             bullet.transform.forward = _player.transform.position - _muzzle.transform.position;
 
             //弾を動かす
-            bullet.GetComponent<NormalBulletController>()
-                .MoveStart(_normalBulletPool, _soundEffectPool);
+            bullet.GetComponent<NormalBulletController>().MoveStart(_objectPool);
 
             //音のエフェクトを生成
-            SoundEffect soundEffect = _soundEffectPool.Pool.Get();
-            soundEffect.Initialize(_soundEffectPool, SoundEffectType.Danger2, _muzzle.position);
+            SoundEffect soundEffect = _objectPool.SoundEffectPool.Pool.Get();
+            soundEffect.Initialize(_objectPool.SoundEffectPool.Pool, SoundEffectType.Danger2, _muzzle.position);
 
             _timer = 0;
         }

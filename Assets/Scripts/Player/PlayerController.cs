@@ -41,14 +41,13 @@ public class PlayerController : MonoBehaviour, IHittable
     public IInputProvider Input => _input;
 
     public void Initialize(
-        NormalBulletPool bulletPool,
-        SoundEffectPool soundEffectPool, 
+        ObjectPoolsController objectPool,
         SpeedController speedController,
         IInputProvider input)
     {
         _input = input;
         _mover.Initialize(_rb, transform, _speed);
-        _shooter.Initialize(bulletPool, soundEffectPool, _speed);
+        _shooter.Initialize(objectPool, _speed);
         _closeEye.Initialize(this, speedController);
 
         _speed.SpeedRp
