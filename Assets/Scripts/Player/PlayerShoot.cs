@@ -52,7 +52,7 @@ public class PlayerShoot
     /// プレイヤーの射撃処理
     /// </summary>
     /// <param name="isShoot">射撃を行うかどうか</param>
-    public void BulletShoot(bool isShoot, float deltaTime) //TODO：UniRxでのインターバル処理をやってみる
+    public void BulletShoot(bool isShoot, float deltaTime)
     {
         //インターバルにカウントを加算
         _shootIntervalTimer += deltaTime * _speed.CurrentSpeed;
@@ -63,14 +63,13 @@ public class PlayerShoot
             OnBulletShoot?.Invoke();
             _audio.Play();
 
-            //場合に応じた弾を生成
+            //弾を生成
             NormalBulletController bulletController = _objectPool.BulletPool.Pool.Get();
-
             GameObject bullet = bulletController.gameObject;
             bullet.transform.position = _muzzle.position;
 
-            Ray ray = Camera.main.ScreenPointToRay(_crassHair.rectTransform.position);
             // Rayを撃ち、当たっていたらその座標に向ける
+            Ray ray = Camera.main.ScreenPointToRay(_crassHair.rectTransform.position);
             if (Physics.Raycast(ray, out RaycastHit hit, _rayLength))
             {             
                 bullet.transform.forward = hit.point - _muzzle.transform.position;
@@ -82,8 +81,7 @@ public class PlayerShoot
             }
 
             //弾を動かし、オブジェクトプールの参照を渡す
-            bullet.GetComponent<NormalBulletController>()
-                .MoveStart(_objectPool);
+            bullet.GetComponent<NormalBulletController>().MoveStart(_objectPool);
 
             //インターバルをリセット
             _shootIntervalTimer = 0f;
