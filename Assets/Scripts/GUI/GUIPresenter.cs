@@ -74,17 +74,7 @@ public class GUIPresenter : MonoBehaviour
 
     public void ManualUpdate(InGameState gameState)
     {
-        if (_input.GetEscape() && gameState != InGameState.Finish)
-        {
-            if (gameState != InGameState.Pause)
-            {
-                _help.OpenHelp(gameState);
-            }
-            else
-            {
-                _help.CloseHelp(gameState);
-            }
-        }
+        _help.ManualUpdate(_input.GetEscape(), gameState);
     }
 
     private void OnDisable()

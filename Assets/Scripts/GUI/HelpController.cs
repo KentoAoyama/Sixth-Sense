@@ -47,7 +47,22 @@ public class HelpController : MonoBehaviour
         _helpObject.transform.localScale = new(0f, 0f, 0f);
     }
 
-    public void OpenHelp(InGameState gameState)
+    public void ManualUpdate(bool isHelpOn, InGameState gameState)
+    {
+        if (isHelpOn && gameState != InGameState.Finish)
+        {
+            if (gameState != InGameState.Pause)
+            {
+                OpenHelp(gameState);
+            }
+            else
+            {
+                CloseHelp(gameState);
+            }
+        }
+    }
+
+    private void OpenHelp(InGameState gameState)
     {
         _speedController.Pause();
         _pov.m_VerticalAxis.m_MaxSpeed = 0f;
@@ -57,7 +72,7 @@ public class HelpController : MonoBehaviour
             .OnComplete(() => gameState = InGameState.Pause);
     }
 
-    public void CloseHelp(InGameState gameState)
+    private void CloseHelp(InGameState gameState)
     {
         _speedController.Resume();
 
