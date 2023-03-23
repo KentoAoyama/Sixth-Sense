@@ -82,7 +82,7 @@ public class InGameController : MonoBehaviour
         //ƒQ[ƒ€’†‚Å‚È‚¢‚È‚çŽÀs‚µ‚È‚¢
         if (_gameState != InGameState.InGame) return;
 
-        if (Cursor.visible) CursorInit();
+        //if (Cursor.visible) CursorInit();
         _player.ManualUpdate(deltaTime);
         _enemyGenerator.ManualUpdate(deltaTime);
     }
@@ -101,7 +101,11 @@ public class InGameController : MonoBehaviour
             .AddTo(gameObject);
 
         _gui.Help.CloseButton.OnPointerClickAsObservable()
-            .Subscribe(_ => _gui.Help.CloseHelp(_gameState))
+            .Subscribe(_ =>
+            {
+                _gui.Help.CloseHelp(_gameState);
+                CursorInit();
+            })
             .AddTo(gameObject);
 
         _gui.Result.RestartButton.OnPointerClickAsObservable()
@@ -118,7 +122,7 @@ public class InGameController : MonoBehaviour
     /// </summary>
     private void GameOver()
     {
-        Cursor.visible = false;
+        Cursor.visible = true;
         _speedController.Pause();
         _gui.Result.OpenResult(_scoreController.Score.Value);
         _enemyGenerator.DestroyEnemy();

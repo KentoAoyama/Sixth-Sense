@@ -64,6 +64,7 @@ public class HelpController : MonoBehaviour
 
     private void OpenHelp(InGameState gameState)
     {
+        Cursor.visible = true;
         _speedController.Pause();
         _pov.m_VerticalAxis.m_MaxSpeed = 0f;
         _pov.m_HorizontalAxis.m_MaxSpeed = 0f;
@@ -72,7 +73,7 @@ public class HelpController : MonoBehaviour
             .OnComplete(() => gameState = InGameState.Pause);
     }
 
-    private void CloseHelp(InGameState gameState)
+    public void CloseHelp(InGameState gameState)
     {
         _speedController.Resume();
 
